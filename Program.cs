@@ -35,8 +35,13 @@ do
             Console.Clear();
             Console.WriteLine("You have chosen to end the program.\n Press any key to continue!");
             Console.ReadKey();
+<<<<<<< HEAD
             endprogram = true; break;
 
+=======
+            endprogram = true;break;
+        
+>>>>>>> 9ed117da9de1cde261e2c347c872bea70b44a716
     }
 } while (!endprogram);
 
@@ -81,5 +86,9 @@ void bookingmenu()
                 returntomainmenu = true; return;
         }
     } while (!returntomainmenu);
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 9ed117da9de1cde261e2c347c872bea70b44a716
