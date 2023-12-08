@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 
 // database
 string? dbUri = "Host=localhost;Port=5455;Username=postgres;Password=postgres;Database=holidaymakergroup6";
@@ -35,9 +35,6 @@ do
             Console.Clear();
             Console.WriteLine("You have chosen to end the program.\n Press any key to continue!");
             Console.ReadKey();
-            endprogram = true;break;
-        
-    }
 } while (!endprogram);
 
 void bookingmenu()
@@ -81,4 +78,3 @@ void bookingmenu()
                 returntomainmenu = true; return;
         }
     } while (!returntomainmenu);
-}
