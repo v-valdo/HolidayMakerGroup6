@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using HolidayMakerGroup6;
+
+Customers customer = new Customers();
+customer.RegisterCustomer();
+
+
