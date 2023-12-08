@@ -30,3 +30,11 @@ VALUES (2,'tangalooma',1550.99,4.4),
 (1,'greenside',1639.99,2.6),
 (1,'tangalooma',890.99,2.5),
 (3,'tangalooma',1350.99,1.7);
+
+//location populated
+INSERT INTO location(name, distance_to_beach, distance_to_city) 
+VALUES  ('tangalooma', 50, 250),
+('greenside', 100, 200),
+('rivergate', 150, 150),
+('azurebliss', 200, 100), 
+('crystalcove', 250, 50);

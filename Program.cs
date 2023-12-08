@@ -20,10 +20,7 @@ do
 
     switch (answer)
     {
-        default:
-            Console.WriteLine("is not in the menu!");
-            Console.ReadKey();
-            break;
+        
         case 1:
             Console.WriteLine("1. register customer");
             Console.ReadKey();
@@ -35,6 +32,12 @@ do
             Console.Clear();
             Console.WriteLine("You have chosen to end the program.\n Press any key to continue!");
             Console.ReadKey();
+            break;
+        default:
+            Console.WriteLine("is not in the menu!");
+            Console.ReadKey();
+            break;
+    }
 } while (!endprogram);
 
 void bookingmenu()
@@ -78,3 +81,4 @@ void bookingmenu()
                 returntomainmenu = true; return;
         }
     } while (!returntomainmenu);
+}
