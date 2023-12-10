@@ -2,5 +2,7 @@
 public enum Criterias
 {
 	Pool,
-	Restaurant,
+	EveningEntertainment,
+	ChildrensClub,
+	Restaurant
 }
