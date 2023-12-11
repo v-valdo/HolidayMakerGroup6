@@ -109,3 +109,10 @@ VALUES
 ('restaurant'),
 ('evening entertainment'),
 ('childrens club');
+
+// Reset SERIAL
+delete from table;
+
+ALTER sequence table_id_seq restart with 1;
+
+--> insert
