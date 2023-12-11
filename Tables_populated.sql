@@ -91,3 +91,28 @@ INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) V
 ('Dalli', 'Trevena', 'dtrevena1b@blogger.com', '0703899595', '2001-04-01'),
 ('Marcelle', 'Riveles', 'mriveles1c@wufoo.com', '0746716341', '2000-01-17'),
 ('Winfred', 'Schule', 'wschule1d@usnews.com', '0733819625', '1976-01-17');
+
+// extras
+INSERT INTO extra_service (name, price)
+VALUES ('extrabed', 750.99),
+('halfboard', 250.50),
+('fullboard', 500.99),
+('breakfast', 200.0),
+('exclusive spa', 2000.0),
+('gym access', 750.0),
+('private jet', 12000.0);
+
+// criterias
+INSERT INTO search_criteria (name)
+VALUES 
+('pool'),
+('restaurant'),
+('evening entertainment'),
+('childrens club');
+
+// Reset SERIAL
+delete from table;
+
+ALTER sequence table_id_seq restart with 1;
+
+--> insert
