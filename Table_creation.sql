@@ -7,7 +7,7 @@ CREATE TABLE "customers"(
     "date_of_birth" DATE NOT NULL
 );
 ALTER TABLE
-    "customers" ADD PRIMARY KEY("id");
+    "customers" ADD PRIMARY KEY("id"); 
 CREATE TABLE "criteria_rooms"(
     "criteria_id" INTEGER NOT NULL,
     "room_id" INTEGER NOT NULL
@@ -71,3 +71,12 @@ ALTER TABLE
     "rooms" ADD CONSTRAINT "rooms_location_name_foreign" FOREIGN KEY("location_name") REFERENCES "location"("name");
 ALTER TABLE
     "extra_service_and_bookings" ADD CONSTRAINT "extra_service_and_bookings_extra_service_name_foreign" FOREIGN KEY("extra_service_name") REFERENCES "extra_service"("name");
+
+ALTER SEQUENCE 
+    customers_id_seq RESTART WITH 1;
+ALTER SEQUENCE 
+    rooms_id_seq RESTART WITH 1;
+ALTER SEQUENCE 
+    search_criteria_id_seq RESTART WITH 1;
+ALTER SEQUENCE 
+    bookings_id_seq RESTART WITH 1;
