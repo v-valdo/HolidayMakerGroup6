@@ -1,4 +1,4 @@
-//location populated
+--location populated
 INSERT INTO location(name, distance_to_beach, distance_to_city) 
 VALUES  ('tangalooma', 50, 250),
 ('greenside', 100, 200),
@@ -6,7 +6,7 @@ VALUES  ('tangalooma', 50, 250),
 ('azurebliss', 200, 100), 
 ('crystalcove', 250, 50);
 
-// Rooms populated
+-- Rooms populated
 INSERT INTO rooms (size, location_name, price, reviews)
 VALUES (2,'tangalooma',1550.99,4.4),
 (1,'rivergate',1405.99,3.6),
@@ -39,7 +39,7 @@ VALUES (2,'tangalooma',1550.99,4.4),
 (1,'tangalooma',890.99,2.5),
 (3,'tangalooma',1350.99,1.7);
 
-//customer populated
+--customer populated
 INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES
 ('Emlen', 'Desborough', 'edesborough0@sogou.com', '0714142806', '1990-03-23'),
 ('Nestor', 'Mugglestone', 'nmugglestone1@myspace.com', '0787378765', '1982-08-24'),
@@ -92,7 +92,7 @@ INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) V
 ('Marcelle', 'Riveles', 'mriveles1c@wufoo.com', '0746716341', '2000-01-17'),
 ('Winfred', 'Schule', 'wschule1d@usnews.com', '0733819625', '1976-01-17');
 
-// extras
+-- extras
 INSERT INTO extra_service (name, price)
 VALUES ('extrabed', 750.99),
 ('halfboard', 250.50),
@@ -102,7 +102,7 @@ VALUES ('extrabed', 750.99),
 ('gym access', 750.0),
 ('private jet', 12000.0);
 
-// criterias
+-- criterias
 INSERT INTO search_criteria (name)
 VALUES 
 ('pool'),
@@ -110,14 +110,14 @@ VALUES
 ('evening entertainment'),
 ('childrens club');
 
-// Reset SERIAL
-delete from table;
+-- Reset SERIAL
+-- delete from table;
 
-ALTER sequence table_id_seq restart with 1;
+--ALTER sequence table_id_seq restart with 1;
 
 --> insert
 
-// criterias_rooms
+-- criterias_rooms
 INSERT INTO criteria_rooms (criteria_id,room_id)
 VALUES (3,16),
 (1,14),
