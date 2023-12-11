@@ -7,13 +7,11 @@ CREATE TABLE "customers"(
     "date_of_birth" DATE NOT NULL
 );
 ALTER TABLE
-    "customers" ADD PRIMARY KEY("id"); 
+    "customers" ADD PRIMARY KEY("id");
 CREATE TABLE "criteria_rooms"(
     "criteria_id" INTEGER NOT NULL,
     "room_id" INTEGER NOT NULL
 );
-ALTER TABLE
-    "criteria_rooms" ADD PRIMARY KEY("criteria_id");
 CREATE TABLE "rooms"(
     "id" SERIAL NOT NULL,
     "size" INTEGER NOT NULL,
@@ -66,7 +64,7 @@ ALTER TABLE
 ALTER TABLE
     "bookings" ADD CONSTRAINT "bookings_customer_id_foreign" FOREIGN KEY("customer_id") REFERENCES "customers"("id");
 ALTER TABLE
-    "search_criteria" ADD CONSTRAINT "search_criteria_id_foreign" FOREIGN KEY("id") REFERENCES "criteria_rooms"("criteria_id");
+    "criteria_rooms" ADD CONSTRAINT "criteria_rooms_criteria_id_foreign" FOREIGN KEY("criteria_id") REFERENCES "search_criteria"("id");
 ALTER TABLE
     "rooms" ADD CONSTRAINT "rooms_location_name_foreign" FOREIGN KEY("location_name") REFERENCES "location"("name");
 ALTER TABLE
