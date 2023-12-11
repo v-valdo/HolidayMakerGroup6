@@ -43,7 +43,7 @@ CREATE TABLE "bookings"(
     "id" SERIAL NOT NULL,
     "customer_id" INTEGER NOT NULL,
     "start_date" DATE NOT NULL,
-    "end_date" BIGINT NOT NULL,
+    "end_date" DATE NOT NULL,
     "room_id" INTEGER NOT NULL,
     "number_of_people" INTEGER NOT NULL,
     "price" INTEGER NOT NULL
