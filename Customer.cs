@@ -8,6 +8,7 @@ public class Customer
 	public int phoneNumber;
 	public string? email;
 	public string? DoB;
+
 	public List<Customer> List;
 
 	public async Task Register()
@@ -69,7 +70,7 @@ public class Customer
 
 	}
 
-	public void List()
+	public void ShowAll()
 	{
 		// Update-metod som hämtar alla customers och lägger i List<Customer>
 	}
