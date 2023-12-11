@@ -1,3 +1,11 @@
+//location populated
+INSERT INTO location(name, distance_to_beach, distance_to_city) 
+VALUES  ('tangalooma', 50, 250),
+('greenside', 100, 200),
+('rivergate', 150, 150),
+('azurebliss', 200, 100), 
+('crystalcove', 250, 50);
+
 // Rooms populated
 INSERT INTO rooms (size, location_name, price, reviews)
 VALUES (2,'tangalooma',1550.99,4.4),
@@ -31,14 +39,6 @@ VALUES (2,'tangalooma',1550.99,4.4),
 (1,'tangalooma',890.99,2.5),
 (3,'tangalooma',1350.99,1.7);
 
-//location populated
-INSERT INTO location(name, distance_to_beach, distance_to_city) 
-VALUES  ('tangalooma', 50, 250),
-('greenside', 100, 200),
-('rivergate', 150, 150),
-('azurebliss', 200, 100), 
-('crystalcove', 250, 50);
-
 //customer populated
 INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES
 ('Emlen', 'Desborough', 'edesborough0@sogou.com', '0714142806', '1990-03-23'),
@@ -52,7 +52,7 @@ INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) V
 ('Heloise', 'Ellams', 'hellams8@ted.com', '0759200035', '2001-01-02'),
 ('Darnell', 'Batters', 'dbatters9@uol.com.br', '0767458303', '1971-09-30'),
 ('Dre', 'Whiston', 'dwhistona@phoca.cz', '0787268917', '1960-04-19'),
-('Fawne', 'O''Roan', 'foroanb@hubpages.com', '0702030179', '1950-08-31'),
+('Fawne', 'O Roan', 'foroanb@hubpages.com', '0702030179', '1950-08-31'),
 ('Charity', 'Mowbury', 'cmowburyc@arstechnica.com', '0712035175', '1966-09-10'),
 ('Ailina', 'Gostick', 'agostickd@storify.com', '0718538751', '1989-06-12'),
 ('Leonid', 'Keaveney', 'lkeaveneye@qq.com', '0767766424', '1979-05-22'),
@@ -84,7 +84,7 @@ INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) V
 ('Hewet', 'Hurich', 'hhurich14@artisteer.com', '0743838821', '1965-04-30'),
 ('Chiarra', 'Burger', 'cburger15@google.fr', '0742251785', '1942-12-18'),
 ('Herbert', 'Isaq', 'hisaq16@ucsd.edu', '0707869444', '1930-07-17'),
-('Lissa', 'O'' Concannon', 'lo17@webnode.com', '0736201110', '1999-10-19'),
+('Lissa', 'O Concannon', 'lo17@webnode.com', '0736201110', '1999-10-19'),
 ('Winona', 'Courtier', 'wcourtier18@cbc.ca', '0793016817', '1964-10-06'),
 ('Orin', 'Camies', 'ocamies19@blogtalkradio.com', '0701834175', '1992-02-14'),
 ('Abbe', 'Semkins', 'asemkins1a@nydailynews.com', '0795506805', '1982-04-27'),
