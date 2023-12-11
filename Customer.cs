@@ -1,7 +1,5 @@
 ﻿using Npgsql;
-
 namespace HolidayMakerGroup6;
-
 public class Customer
 {
 	public int customerID;
@@ -10,6 +8,7 @@ public class Customer
 	public int phoneNumber;
 	public string? email;
 	public string? DoB;
+	public List<Customer> List;
 
 	public async Task Register()
 	{
@@ -36,6 +35,7 @@ public class Customer
 		Console.Clear();
 
 		await Add();
+		// Update-metod som hämtar alla customers och lägger i List<Customer>
 
 		customerID = await GetID(email);
 
@@ -67,5 +67,10 @@ public class Customer
 		var customerID = await cmd.ExecuteScalarAsync();
 		return Convert.ToInt32(customerID);
 
+	}
+
+	public void List()
+	{
+		// Update-metod som hämtar alla customers och lägger i List<Customer>
 	}
 }
