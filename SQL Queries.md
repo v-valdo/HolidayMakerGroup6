@@ -20,4 +20,22 @@ insert into extra_service_and_bookings(booking_id, extra_service_name)
 values (1, 'private jet');
 ```
 
+### Ordna sökträffar - omdömme (högt till lågt)
+
+Grundprincipen på hur man sorterar högt till lågt
+
+```
+SELECT * 
+FROM rooms
+ORDER BY reviews DESC;
+```
+
+### Ordna sökträffar - recensioner (lågt till högt)
+
+Grundprincipen på hur man sorterar lågt till högt
+```
+SELECT *
+FROM rooms
+ORDER BY price ASC;
+```
 
