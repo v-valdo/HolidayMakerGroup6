@@ -65,14 +65,14 @@ ALTER TABLE
 ALTER SEQUENCE 
     customers_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
-    criteria_id_seq RESTART WITH 1;
+    criteria_rooms_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
     search_criteria_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
     rooms_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
-    extra_service_seq RESTART WITH 1;
+    extra_service_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
-    extra_service_and_bookings_seq RESTART WITH 1;
+    extra_service_and_bookings_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
     bookings_id_seq RESTART WITH 1;
