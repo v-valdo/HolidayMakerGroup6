@@ -1,5 +1,5 @@
 ﻿namespace HolidayMakerGroup6;
-public enum Extras
+public enum Extras // Gör om till klass?
 {
 	ExtraBed,
 	HalfBoard,

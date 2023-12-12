@@ -1,5 +1,5 @@
 ﻿namespace HolidayMakerGroup6;
-//public enum Location
+//public enum LocName
 //{
 //	Rivergate,
 //	Tangalooma,
@@ -7,6 +7,7 @@
 //	Greenside,
 //	Crystalcove
 //}
+
 public class Location
 {
 	public string Name;

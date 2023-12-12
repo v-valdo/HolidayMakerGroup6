@@ -7,15 +7,26 @@ public class Booking
 	public Room? Room;
 	public Location? Location;
 	public Extras Extra;
-	public double total;
+	public double Total;
+
+	public Booking(Customer? customer, Room? room, Location? location, Extras extra, double total)
+	{
+		Customer = customer;
+		Room = room;
+		Location = location;
+		Extra = extra;
+		Total = total;
+	}
 
 	public async Task Add()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
+		Console.Write("Pick a customer to create booking for");
 
 
 		// räkna ut priset-metod
 		CalculatePrice();
+		// Write(); -- insert into bookings och X-table (extra services)
 	}
 
 	public async Task Delete()
