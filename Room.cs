@@ -3,6 +3,6 @@ public class Room
 {
 	public double size;
 	public double price;
-	public Location location;
+	public Location? location;
 	public double review;
 }

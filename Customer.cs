@@ -8,7 +8,6 @@ public class Customer
 	public int phoneNumber;
 	public string? email;
 	public string? DoB;
-
 	public List<Customer> List;
 
 	public async Task Register()
@@ -70,8 +69,27 @@ public class Customer
 
 	}
 
-	public void ShowAll()
+	// fungerande lista från databasen
+	public async Task ShowAll()
 	{
-		// Update-metod som hämtar alla customers och lägger i List<Customer>
+		await using var db = NpgsqlDataSource.Create(Database.Url);
+
+		const string query = "select first_name, last_name from customers;";
+		var reader = await db.CreateCommand(query).ExecuteReaderAsync();
+
+		List<string> allcustomers = new();
+
+		while (await reader.ReadAsync())
+		{
+			allcustomers.Add($"{reader.GetString(0)} {reader.GetString(1)}");
+		}
+
+		int indexer = 1;
+		foreach (var item in allcustomers)
+		{
+			Console.WriteLine($"{indexer}. {item}");
+			indexer++;
+		}
+
 	}
 }

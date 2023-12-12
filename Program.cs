@@ -1,8 +1,13 @@
 using HolidayMakerGroup6;
 using Npgsql;
-// connection to database
+
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
+Customer customer = new();
+
+await customer.ShowAll();
+
+Console.ReadLine();
 // main menu
 bool endprogram = false;
 do
@@ -25,8 +30,8 @@ do
 			Console.WriteLine("1. Register New Customer");
 			Console.ReadKey();
 
-			Customer customer = new Customer();
-			await customer.Register();
+			//Customer customer = new Customer();
+			//await customer.Register();
 			break;
 		case 2:
 			bookingmenu();
