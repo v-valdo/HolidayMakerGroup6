@@ -1,0 +1,23 @@
+# SQL Queries
+
+## Skapa bokning
+
+Skapa en bokning för kund med ID 1, en vecka i juni, i rum med ID 1, 3 personer, för $500
+
+Priset räknar vi ut i appen(!)
+
+```
+insert into bookings (customer_id, start_date, end_date, room_id, number_of_people, price)
+values (1, '2020-06-20', '2020-06-27', 1, 3, 500);
+```
+
+### Lägg till extratjänst/er
+
+Lägger till "private jet" som extratjänst i booking med ID 1
+
+```
+insert into extra_service_and_bookings(booking_id, extra_service_name)
+values (1, 'private jet');
+```
+
+
