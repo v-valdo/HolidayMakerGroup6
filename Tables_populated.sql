@@ -24,7 +24,7 @@ VALUES (2,'tangalooma',1550.99,4.4),
 (3,'azurebliss',1342.99,4.5),
 (1,'rivergate',1824.99,4.5),
 (3,'tangalooma',153.99,2.3),
-(1,'crystalcove',1531.99,2.0),
+(1,'crystalcove',1531.99,5.0),
 (2,'greenside',1970.99,2.5),
 (1,'azurebliss',703.99,2.7),
 (3,'rivergate',1217.99,3.4),
@@ -37,7 +37,7 @@ VALUES (2,'tangalooma',1550.99,4.4),
 (1,'rivergate',898.99,2.5),
 (1,'greenside',1639.99,2.6),
 (1,'tangalooma',890.99,2.5),
-(3,'tangalooma',1350.99,1.7);
+(3,'tangalooma',1350.99,2.7);
 
 --customer populated
 INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES
