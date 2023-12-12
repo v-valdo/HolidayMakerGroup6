@@ -20,18 +20,6 @@ insert into extra_service_and_bookings(booking_id, extra_service_name)
 values (1, 'private jet');
 ```
 
-### Söka på boenden baserat på till centrum
-
-Eftersom union inte kan användas, och vill inte ha duplicationer definerades alla kolumner för hand.
-
-```
-SELECT r.id, r.size, r.price, r.reviews, r.location_name, l.distance_to_city, l.distance_to_beach
-FROM rooms r
-RIGHT JOIN location l
-ON r.location_name = l.name
-ORDER BY distance_to_city ASC;
-```
-
 ### Ordna sökträffar - omdömme (högt till lågt)
 
 Grundprincipen på hur man sorterar högt till lågt
