@@ -17,7 +17,7 @@ CREATE TABLE "rooms"(
     "size" INTEGER NOT NULL,
     "location_name" VARCHAR(255) NOT NULL,
     "price" DECIMAL(8, 2) NOT NULL,
-    "reviews" DECIMAL(8, 2) NOT NULL
+    "reviews" DECIMAL(2, 1) NOT NULL
 );
 ALTER TABLE
     "rooms" ADD PRIMARY KEY("id");
