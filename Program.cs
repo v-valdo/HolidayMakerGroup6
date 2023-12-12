@@ -3,11 +3,8 @@ using Npgsql;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
-Customer customer = new();
-
-await customer.ShowAll();
-
-Console.ReadLine();
+Booking booking = new();
+await booking.Add();
 // main menu
 bool endprogram = false;
 do

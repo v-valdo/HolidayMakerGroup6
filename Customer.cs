@@ -74,21 +74,18 @@ public class Customer
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
-		const string query = "select first_name, last_name from customers;";
+		const string query = "select * from customers;";
 		var reader = await db.CreateCommand(query).ExecuteReaderAsync();
 
-		List<string> allcustomers = new();
+		List<string> Customers = new();
 
 		while (await reader.ReadAsync())
 		{
-			allcustomers.Add($"{reader.GetString(0)} {reader.GetString(1)}");
+			Customers.Add($"ID: {reader.GetInt32(0)} || Firstname: {reader.GetString(1)} || Surname: {reader.GetString(2)}");
 		}
-
-		int indexer = 1;
-		foreach (var item in allcustomers)
+		foreach (var item in Customers)
 		{
-			Console.WriteLine($"{indexer}. {item}");
-			indexer++;
+			Console.WriteLine(item);
 		}
 
 	}

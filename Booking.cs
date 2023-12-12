@@ -9,20 +9,38 @@ public class Booking
 	public Extras Extra;
 	public double Total;
 
-	public Booking(Customer? customer, Room? room, Location? location, Extras extra, double total)
-	{
-		Customer = customer;
-		Room = room;
-		Location = location;
-		Extra = extra;
-		Total = total;
-	}
+	//public Booking(Customer? customer, Room? room, Location? location, Extras extra, double total)
+	//{
+	//	Customer = customer;
+	//	Room = room;
+	//	Location = location;
+	//	Extra = extra;
+	//	Total = total;
+	//}
 
 	public async Task Add()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
-		Console.Write("Pick a customer to create booking for");
 
+		Customer customer = new();
+		await customer.ShowAll();
+		Console.Write("Pick a customer (ID) to create booking for: ");
+
+		const string query = "select id from customers";
+		var reader = await db.CreateCommand(query).ExecuteReaderAsync();
+
+		if (int.TryParse(Console.ReadLine(), out int c))
+		{
+			while (await reader.ReadAsync())
+			{
+				if (reader.GetInt32(0) == c)
+				{
+					Console.WriteLine("found");
+					break;
+				}
+			}
+			Console.ReadKey();
+		}
 
 		// räkna ut priset-metod
 		CalculatePrice();
@@ -31,13 +49,13 @@ public class Booking
 
 	public async Task Delete()
 	{
-		List();
+		await List();
 	}
 
 	public async Task Edit()
 	{
 		// Visa alla bookings -> Välj booking att edita
-		List();
+		await List();
 	}
 
 	// callable Method summing the total price (incl. extras) for the booking
@@ -45,9 +63,9 @@ public class Booking
 	{
 		// typ Room.Price + Extras.Price
 	}
-
-	public void List()
+	public async Task List()
 	{
-		// Visa Alla Bookings
+		Customer customer = new();
+		await customer.ShowAll();
 	}
 }
