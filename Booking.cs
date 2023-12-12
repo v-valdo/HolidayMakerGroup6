@@ -37,6 +37,6 @@ public class Booking
 
 	public void List()
 	{
-		// Visa Alla Bookings
-	}
+        
+    }
 }
