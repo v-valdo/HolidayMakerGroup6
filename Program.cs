@@ -84,12 +84,12 @@ void bookingmenu()
                 searchpagemenu();
                 break;
             case 5:
-                Console.Clear();
-                Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
-                Console.ReadKey();
                 returntomainmenu = true; return;
         }
     } while (!returntomainmenu);
+    Console.Clear();
+    Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
+    Console.ReadKey();
 }
 
 async Task searchpagemenu()
