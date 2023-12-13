@@ -64,6 +64,10 @@ void bookingmenu()
 
         switch (answer)
         {
+            default:
+                Console.WriteLine("No such option");
+                Console.ReadKey();
+                break;
             case 1:
                 Console.WriteLine("1. create new booking");
                 Console.ReadKey();
@@ -81,7 +85,7 @@ void bookingmenu()
                 Console.ReadKey();
                 break;
             case 6:
-                searchpagemenu();
+                Task search = searchpagemenu();
                 break;
             case 5:
                 Console.Clear();
@@ -100,8 +104,8 @@ async Task searchpagemenu()
     {
         Console.Clear();
         Console.WriteLine("--- Rooms ---\n" +
-                          "1. Sort by price ASC\n"+
-                          "2. Sort by reviews DESC\n"+
+                          "1. Sort by price ASC\n" +
+                          "2. Sort by reviews DESC\n\n" +
                           "3. Return to bookings menu");
         Console.Write("Enter choice:  ");
         int.TryParse(Console.ReadLine(), out int answer);
@@ -113,13 +117,15 @@ async Task searchpagemenu()
                 Console.ReadKey();
                 break;
             case 1:
+                Console.Clear();
                 Console.WriteLine(await sort.RoomsPriceASC());
                 Console.ReadKey();
-                return;
+                break;
             case 2:
-                sort.RoomsReviewsDESC();
+                Console.Clear();
+                Console.WriteLine(await sort.RoomsReviewsDESC()); 
                 Console.ReadKey();
-                return;
+                break;
             case 3:
                 Console.Clear();
                 Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
