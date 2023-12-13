@@ -81,12 +81,15 @@ public class Customer
 
 		while (await reader.ReadAsync())
 		{
-			Customers.Add($"ID: {reader.GetInt32(0)} || Firstname: {reader.GetString(1)} || Surname: {reader.GetString(2)}");
+			string customerInfo = $"{reader.GetInt32(0),-5} | {reader.GetString(1),-15} | {reader.GetString(2),-15}";
+			Customers.Add(customerInfo);
 		}
+		Console.WriteLine("ID    | Firstname       | Surname         ");
+		Console.WriteLine("******|*****************|*************");
 		foreach (var item in Customers)
 		{
 			Console.WriteLine(item);
 		}
-
+		Console.WriteLine();
 	}
 }
