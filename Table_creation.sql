@@ -6,10 +6,11 @@ CREATE TABLE customers(
     telnumber INTEGER NOT NULL,
     date_of_birth DATE NOT NULL
 );
-CREATE TABLE criteria_rooms(
+CREATE TABLE location(
     id SERIAL NOT NULL PRIMARY KEY,
-    criteria_id SERIAL NOT NULL,
-    room_id SERIAL NOT NULL
+    name TEXT NOT NULL,
+    distance_to_beach INTEGER NOT NULL,
+    distance_to_city INTEGER NOT NULL
 );
 CREATE TABLE rooms(
     id SERIAL NOT NULL PRIMARY KEY,
@@ -22,15 +23,10 @@ CREATE TABLE search_criteria(
     id SERIAL NOT NULL PRIMARY KEY,
     name TEXT NOT NULL
 );
-CREATE TABLE extra_service(
+CREATE TABLE criteria_rooms(
     id SERIAL NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    price DECIMAL(8, 2) NOT NULL
-);
-CREATE TABLE extra_service_and_bookings(
-    id SERIAL NOT NULL PRIMARY KEY,
-    booking_id SERIAL NOT NULL,
-    extra_service_id SERIAL NOT NULL
+    criteria_id SERIAL NOT NULL,
+    room_id SERIAL NOT NULL
 );
 CREATE TABLE bookings(
     id SERIAL NOT NULL PRIMARY KEY,
@@ -41,12 +37,17 @@ CREATE TABLE bookings(
     number_of_people INTEGER NOT NULL,
     price INTEGER NOT NULL
 );
-CREATE TABLE location(
+CREATE TABLE extra_service(
     id SERIAL NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
-    distance_to_beach INTEGER NOT NULL,
-    distance_to_city INTEGER NOT NULL
+    price DECIMAL(8, 2) NOT NULL
 );
+CREATE TABLE extra_service_and_bookings(
+    id SERIAL NOT NULL PRIMARY KEY,
+    booking_id SERIAL NOT NULL,
+    extra_service_id SERIAL NOT NULL
+);
+
 ALTER TABLE
     bookings ADD CONSTRAINT bookings_room_id_foreign FOREIGN KEY(room_id) REFERENCES rooms(id);
 ALTER TABLE
@@ -65,14 +66,16 @@ ALTER TABLE
 ALTER SEQUENCE 
     customers_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
+    locations_id_seq RESTART WITH 1;
+ALTER SEQUENCE 
+    rooms_id_seq RESTART WITH 1;
+ALTER SEQUENCE 
     criteria_rooms_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
     search_criteria_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
-    rooms_id_seq RESTART WITH 1;
+    bookings_id_seq RESTART WITH 1; 
 ALTER SEQUENCE 
     extra_service_id_seq RESTART WITH 1;
 ALTER SEQUENCE 
     extra_service_and_bookings_id_seq RESTART WITH 1;
-ALTER SEQUENCE 
-    bookings_id_seq RESTART WITH 1;
