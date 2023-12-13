@@ -20,7 +20,7 @@ public class SearchPage
         ";
 
         var reader = await _db.CreateCommand(qRoomsPriceSort).ExecuteReaderAsync();
-        while (await reader.ReadAsync()) // så länge det finns något att läsa
+        while (await reader.ReadAsync())
         {
             result += reader.GetInt32(0);
             result += " || ";
@@ -47,7 +47,7 @@ public class SearchPage
         ";
 
         var reader = await _db.CreateCommand(qRoomsReviewsSort).ExecuteReaderAsync();
-        while (await reader.ReadAsync()) // så länge det finns något att läsa
+        while (await reader.ReadAsync())
         {
             result += reader.GetInt32(0);
             result += " || ";
