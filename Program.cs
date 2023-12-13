@@ -3,14 +3,11 @@ using Npgsql;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
+// Creates all tables for the database
 TableCreation tables = new();
 await tables.Create();
 
-Customer customer = new();
 
-await customer.ShowAll();
-
-Console.ReadLine();
 // main menu
 bool endprogram = false;
 do
@@ -56,6 +53,7 @@ void bookingmenu()
         Console.Clear();
         // choice "view bookings"
         Console.WriteLine("---- Bookings ----\n" +
+                      "6. Rooms\n" +
                       "1. Create new booking\n" +
                       "2. Edit booking\n" +
                       "3. Delete booking\n" +
@@ -82,7 +80,47 @@ void bookingmenu()
                 Console.WriteLine("delete booking");
                 Console.ReadKey();
                 break;
+            case 6:
+                searchpagemenu();
+                break;
             case 5:
+                Console.Clear();
+                Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
+                Console.ReadKey();
+                returntomainmenu = true; return;
+        }
+    } while (!returntomainmenu);
+}
+
+async Task searchpagemenu()
+{
+    SearchPage sort = new(db);
+    bool returntomainmenu = false;
+    do
+    {
+        Console.Clear();
+        Console.WriteLine("--- Rooms ---\n" +
+                          "1. Sort by price ASC\n"+
+                          "2. Sort by reviews DESC\n"+
+                          "3. Return to bookings menu");
+        Console.Write("Enter choice:  ");
+        int.TryParse(Console.ReadLine(), out int answer);
+
+        switch (answer)
+        {
+            default:
+                Console.WriteLine("No such option");
+                Console.ReadKey();
+                break;
+            case 1:
+                Console.WriteLine(await sort.RoomsPriceASC());
+                Console.ReadKey();
+                return;
+            case 2:
+                sort.RoomsReviewsDESC();
+                Console.ReadKey();
+                return;
+            case 3:
                 Console.Clear();
                 Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
                 Console.ReadKey();
