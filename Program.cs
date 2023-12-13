@@ -1,5 +1,6 @@
 using HolidayMakerGroup6;
 using Npgsql;
+using System.Runtime.InteropServices;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
@@ -16,7 +17,7 @@ do
     Console.WriteLine("---- HolidayMaker Group 6 ----\n" +
                         "\n1. Register new customer\n" +
                         "2. Bookings\n\n" +
-                        "3. Exit");
+                        "0. Exit");
     Console.Write("Enter choice:  ");
     int.TryParse(Console.ReadLine(), out int answer);
 
@@ -52,13 +53,13 @@ void bookingmenu()
     {
         Console.Clear();
         // choice "view bookings"
-        Console.WriteLine("---- Bookings ----\n" +
-                      "6. Rooms\n" +
+        Console.WriteLine("---- Bookings ----\n\n" +
                       "1. Create new booking\n" +
                       "2. Edit booking\n" +
                       "3. Delete booking\n" +
-                      "4. View bookings\n\n" +
-                      "5. Return to main menu");
+                      "4. View bookings\n" +
+                      "5. Rooms\n\n" +
+                      "0. Return to main menu");
         Console.Write("Enter choice:  ");
         int.TryParse(Console.ReadLine(), out int answer);
 
@@ -84,16 +85,16 @@ void bookingmenu()
                 Console.WriteLine("delete booking");
                 Console.ReadKey();
                 break;
-            case 6:
+            case 5:
                 Task search = searchpagemenu();
                 break;
-            case 5:
+            case 0:
+                Console.Clear();
+                Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
+                Console.ReadKey();
                 returntomainmenu = true; return;
         }
     } while (!returntomainmenu);
-    Console.Clear();
-    Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
-    Console.ReadKey();
 }
 
 async Task searchpagemenu()
@@ -103,10 +104,12 @@ async Task searchpagemenu()
     do
     {
         Console.Clear();
-        Console.WriteLine("--- Rooms ---\n" +
+        Console.WriteLine("---- Rooms ----\n\n" +
                           "1. Sort by price ASC\n" +
-                          "2. Sort by reviews DESC\n\n" +
-                          "3. Return to bookings menu");
+                          "2. Sort by reviews DESC\n" +
+                          "3. Sort by distance to city\n" +
+                          "4. Sort by distance to beach\n\n" +
+                          "0. Return to bookings menu");
         Console.Write("Enter choice:  ");
         int.TryParse(Console.ReadLine(), out int answer);
 
@@ -127,6 +130,16 @@ async Task searchpagemenu()
                 Console.ReadKey();
                 break;
             case 3:
+                Console.Clear();
+                Console.WriteLine("city");
+                Console.ReadKey();
+                break;
+            case 4:
+                Console.Clear();
+                Console.WriteLine("beach");
+                Console.ReadKey();
+                break;
+            case 0:
                 Console.Clear();
                 Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
                 Console.ReadKey();
