@@ -3,6 +3,9 @@ using Npgsql;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
+TableCreation tables = new();
+await tables.Create();
+
 Customer customer = new();
 
 await customer.ShowAll();
