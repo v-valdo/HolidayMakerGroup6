@@ -19,7 +19,7 @@ public class TableCreation
         ";
 
         const string qLocations = @"
-            CREATE TABLE locations (
+            CREATE TABLE IF NOT EXISTS locations (
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
                 distance_to_beach INTEGER NOT NULL,
@@ -28,7 +28,7 @@ public class TableCreation
         ";
 
         const string qRooms = @"
-            CREATE TABLE rooms(
+            CREATE TABLE IF NOT EXISTS rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 size INTEGER NOT NULL,
                 location_id SERIAL REFERENCES locations (id),
@@ -38,14 +38,14 @@ public class TableCreation
         ";
 
         const string qSearchCriteria = @"
-            CREATE TABLE search_criteria(
+            CREATE TABLE IF NOT EXISTS search_criteria(
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL
             );
         ";
 
         const string qCriteriaRooms = @"
-            CREATE TABLE criteria_rooms(
+            CREATE TABLE IF NOT EXISTS criteria_rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 criteria_id SERIAL NOT NULL REFERENCES search_criteria (id),
                 room_id SERIAL NOT NULL REFERENCES rooms (id)
@@ -53,7 +53,7 @@ public class TableCreation
         ";
 
         const string qBookings = @"
-            CREATE TABLE bookings(
+            CREATE TABLE IF NOT EXISTS bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
                 customer_id SERIAL NOT NULL REFERENCES customers (id),
                 start_date DATE NOT NULL,
@@ -65,14 +65,14 @@ public class TableCreation
         ";
 
         const string qExtraService = @"
-            CREATE TABLE extra_service(
+            CREATE TABLE IF NOT EXISTS extra_service(
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
                 price DECIMAL(8, 2) NOT NULL
             );
         ";
         const string qExtraServiceBookings = @"
-            CREATE TABLE extra_service_and_bookings(
+            CREATE TABLE IF NOT EXISTS extra_service_and_bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
                 booking_id SERIAL NOT NULL REFERENCES bookings (id),
                 extra_service_id SERIAL NOT NULL REFERENCES extra_service (id)
