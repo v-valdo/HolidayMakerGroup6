@@ -36,16 +36,31 @@ public class SearchPage
         return result;
     }
 
-    public async Task RoomsReviewsDESC()
+    public async Task<string> RoomsReviewsDESC()
     {
-        await using var db = NpgsqlDataSource.Create(Database.Url);
+        Console.Clear();
+        string result = string.Empty;
         const string qRoomsReviewsSort = @"
             SELECT *
             FROM rooms
             ORDER BY reviews DESC;
         ";
 
-        await db.CreateCommand(qRoomsReviewsSort).ExecuteReaderAsync();
+        var reader = await _db.CreateCommand(qRoomsReviewsSort).ExecuteReaderAsync();
+        while (await reader.ReadAsync()) // så länge det finns något att läsa
+        {
+            result += reader.GetInt32(0);
+            result += " || ";
+            result += reader.GetInt32(1);
+            result += " || ";
+            result += reader.GetInt32(2);
+            result += " || ";
+            result += reader.GetDecimal(3);
+            result += " || ";
+            result += reader.GetDecimal(4);
+            result += "\n";
+        }
+        return result;
     }
 
 }
