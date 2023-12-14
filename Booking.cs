@@ -3,10 +3,9 @@
 namespace HolidayMakerGroup6;
 public class Booking
 {
-	public Room? Room;
-	public Extras Extra;
+	public Customer? customer;
+	public int RoomID;
 	public double Total;
-
 	public async Task Menu()
 	{
 		while (true)
@@ -60,11 +59,11 @@ public class Booking
 		{
 			Console.Write("Pick a customer (ID) to create booking for: ");
 
-			string query = "select id, first_name, last_name FROM customers where id = @customerID";
+			string customerQuery = "select id, first_name, last_name FROM customers where id = @customerID";
 
 			if (int.TryParse(Console.ReadLine(), out int selectedID))
 			{
-				var cmd = db.CreateCommand(query);
+				var cmd = db.CreateCommand(customerQuery);
 
 				cmd.Parameters.AddWithValue("customerID", selectedID);
 
@@ -77,16 +76,20 @@ public class Booking
 					customer.surName = reader.GetString(2);
 
 					Console.Clear();
+
 					Console.WriteLine($"You picked customer \"{customer.firstName} {customer.surName}\" with ID {customer.customerID}\n");
-					Console.Write($"Proceed? (Y/N): ");
+
+					Console.Write($"Proceed to room selection? (Y/N): ");
 
 					string? input = Console.ReadLine();
-					while (input == "")
+
+					while (true)
 					{
 						if (input.ToLower() == "y")
 						{
-							Console.WriteLine("Pick a room");
-
+							Console.Clear();
+							await booking.AssignRoom(booking);
+							break;
 						}
 						else if (input.ToLower() == "n")
 						{
@@ -105,6 +108,10 @@ public class Booking
 					break;
 				}
 			}
+			else
+			{
+				Console.WriteLine("Invalid input");
+			}
 		}
 
 		// räkna ut priset-metod
@@ -112,7 +119,7 @@ public class Booking
 		// Write(); -- insert into bookings och X-table (extra services)
 	}
 
-	public async Task AssignDates(int roomId)
+	public async Task AssignDates(int roomId, Booking booking)
 	{
 		Console.Write("Enter start date for booking [YYYY-MM-DD]: ");
 		if (!DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
@@ -138,9 +145,9 @@ public class Booking
 			return;
 		}
 
-		// bool available = await IsRoomAvailable(roomId, startDate, endDate);
+		bool available = await CheckAvailable(roomId, startDate, endDate);
 
-		/* if (available)
+		if (available)
 		{
 			Console.WriteLine("Room available!");
 			// spara datum i variabel för insert senare
@@ -148,8 +155,41 @@ public class Booking
 		}
 		else
 		{
-			Console.WriteLine($"Room is not available between {startDate} and {endDate}");
-		} */
+			Console.WriteLine($"Room is not available between {startDate} and {endDate}\n Please pick another room");
+			await booking.AssignRoom(booking);
+		}
+	}
+
+	public async Task<bool> CheckAvailable(int roomId, DateTime startDate, DateTime endDate)
+	{
+		await using var db = NpgsqlDataSource.Create(Database.Url);
+
+		const string query = @"select id from bookings 
+								where room_id = @roomId 
+								AND start_date <= @endDate 
+								AND end_date <= @startDate
+";
+
+		var cmd = db.CreateCommand(query);
+
+		cmd.Parameters.AddWithValue("room_id", roomId);
+		cmd.Parameters.AddWithValue("start_date", startDate);
+		cmd.Parameters.AddWithValue("end_date", endDate);
+
+		var reader = await cmd.ExecuteReaderAsync();
+
+		while (await reader.ReadAsync())
+		{
+			if (reader.HasRows)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return true;
 	}
 
 	public async Task Delete()
@@ -180,5 +220,64 @@ public class Booking
 	public async Task Insert()
 	{
 		// skriv in bokning
+	}
+
+	public async Task AssignRoom(Booking booking)
+	{
+		await using var db = NpgsqlDataSource.Create(Database.Url);
+
+		Room room = new();
+
+		while (true)
+		{
+			await room.ViewAll();
+			Console.WriteLine();
+			Console.Write("Pick a room (ID): ");
+
+			if (int.TryParse(Console.ReadLine(), out int selectedRoom))
+			{
+				string roomQuery = "select id from rooms where id = @roomid";
+				var cmd = db.CreateCommand(roomQuery);
+
+				cmd.Parameters.AddWithValue("roomid", selectedRoom);
+
+				var reader = await cmd.ExecuteReaderAsync();
+
+				if (await reader.ReadAsync())
+				{
+					Console.WriteLine($"You picked room with ID {selectedRoom}\nProceed to assign dates (Y/N)?");
+
+					string? input = Console.ReadLine();
+					while (true)
+					{
+						if (input.ToLower() == "y")
+						{
+							Console.Clear();
+							await booking.AssignDates(selectedRoom, booking);
+							break;
+						}
+						else if (input.ToLower() == "n")
+						{
+							break;
+						}
+						else
+						{
+							Console.WriteLine("Invalid input");
+						}
+					}
+				}
+				else
+				{
+					Console.WriteLine($"No room with ID {selectedRoom} found. Press any key to return.");
+					Console.ReadKey();
+					break;
+				}
+			}
+			else
+			{
+				Console.WriteLine("Invalid input");
+				return;
+			}
+		}
 	}
 }

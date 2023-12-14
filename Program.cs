@@ -3,10 +3,9 @@ using Npgsql;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
-Extras x = new();
-x.ShowAll();
+Booking b = new();
+await b.New();
 
-Console.ReadKey();
 
 // main menu
 do

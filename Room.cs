@@ -12,16 +12,20 @@ public class Room
 	public async Task ViewAll()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
-		const string? query = @"select rooms.id, rooms.size, locations.name from rooms
-join;";
+		const string? query = @"select rooms.id, rooms.size, location.name from rooms
+								join location
+								on rooms.location_id = location.id;";
 
 		var cmd = db.CreateCommand(query);
 
 		var reader = await cmd.ExecuteReaderAsync();
 
+		Console.WriteLine("Room ID    | Room Size       | Location");
+		Console.WriteLine("***********|*****************|***********");
+
 		while (await reader.ReadAsync())
 		{
-			Console.WriteLine($"{reader.GetInt32(0)} + {reader.GetInt32(1)}");
+			Console.WriteLine($"{reader.GetInt32(0),-10} | {reader.GetInt32(1),-15} | {reader.GetString(2),-15}");
 		}
 	}
 }
