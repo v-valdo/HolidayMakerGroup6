@@ -11,6 +11,7 @@ await tables.Create();
 
 // main menu
 bool endprogram = false;
+
 do
 {
     Console.Clear();
@@ -46,7 +47,7 @@ do
     }
 } while (!endprogram);
 
-void bookingmenu()
+async Task bookingmenu()
 {
     bool returntomainmenu = false;
     do
@@ -86,7 +87,8 @@ void bookingmenu()
                 Console.ReadKey();
                 break;
             case 5:
-                Task search = searchpagemenu();
+                Console.ReadKey();
+                await searchpagemenu();
                 break;
             case 0:
                 Console.Clear();
@@ -121,7 +123,9 @@ async Task searchpagemenu()
                 break;
             case 1:
                 Console.Clear();
-                Console.WriteLine(await sort.RoomsPriceASC());
+                var roomsResult = "\nSorting rooms by price ASC...\n" + await sort.RoomsPriceASC();
+                Console.WriteLine(roomsResult);
+                Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
                 break;
             case 2:
