@@ -28,11 +28,9 @@ do
             Console.ReadKey();
             break;
         case 1:
-            Console.WriteLine("1. Register New Customer");
+            Customer customers = new Customer();
+            await customers.Register();
             Console.ReadKey();
-
-            //Customer customer = new Customer();
-            //await customer.Register();
             break;
         case 2:
             bookingmenu();
