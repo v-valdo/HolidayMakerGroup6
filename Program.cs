@@ -6,11 +6,11 @@ await using var db = NpgsqlDataSource.Create(Database.Url);
 TableCreation tables = new();
 await tables.Create();
 
-Customer customer = new();
+// Customer customer = new();
 
-await customer.ShowAll();
+// await customer.ShowAll();
 
-Console.ReadLine();
+// Console.ReadLine();
 // main menu
 bool endprogram = false;
 do
