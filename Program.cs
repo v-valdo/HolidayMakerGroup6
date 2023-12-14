@@ -25,7 +25,7 @@ do
     switch (keyPressed.Key)
     {
         default:
-            Console.WriteLine("No such option");
+            Console.WriteLine("\nNo such option");
             Console.ReadKey();
             break;
         case ConsoleKey.D1:
@@ -93,7 +93,7 @@ async Task bookingmenu()
                 await searchpagemenu();
                 break;
             case ConsoleKey.Enter:
-                Console.WriteLine("No such option");
+                Console.WriteLine("\nNo such option");
                 Console.ReadKey();
                 break;
             case ConsoleKey.D0:
@@ -124,7 +124,7 @@ async Task searchpagemenu()
         switch (keyPressed.Key)
         {
             default:
-                Console.WriteLine("No such option");
+                Console.WriteLine("\nNo such option");
                 Console.ReadKey();
                 break;
             case ConsoleKey.D1:

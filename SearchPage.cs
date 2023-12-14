@@ -50,13 +50,13 @@ public class SearchPage
         while (await reader.ReadAsync())
         {
             result += reader.GetInt32(0);
-            result += " || ";
+            result += " ||   ";
             result += reader.GetInt32(1);
-            result += " || ";
+            result += "  ||      ";
             result += reader.GetInt32(2);
-            result += " || ";
+            result += "      ||  ";
             result += reader.GetDecimal(3);
-            result += " || ";
+            result += "  ||   ";
             result += reader.GetDecimal(4);
             result += "\n";
         }
