@@ -1,5 +1,6 @@
 using HolidayMakerGroup6;
 using Npgsql;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
@@ -129,7 +130,7 @@ async Task searchpagemenu()
                 break;
             case ConsoleKey.D1:
                 Console.Clear();
-                Console.WriteLine(await sort.RoomsPriceASC());
+                Console.WriteLine(" Room Number || Room Size   || Location ID || Room Price  || Reviews\n" + await sort.RoomsPriceASC());
                 Console.ReadKey();
                 break;
             case ConsoleKey.D2:
