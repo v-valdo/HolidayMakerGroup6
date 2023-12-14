@@ -19,23 +19,27 @@ do
                         "2. Bookings\n\n" +
                         "0. Exit");
     Console.Write("Enter choice:  ");
-    int.TryParse(Console.ReadLine(), out int answer);
+    ConsoleKeyInfo keyPressed = Console.ReadKey();
 
-    switch (answer)
+    switch (keyPressed.Key)
     {
         default:
             Console.WriteLine("No such option");
             Console.ReadKey();
             break;
-        case 1:
+        case ConsoleKey.D1:
             Customer customers = new Customer();
             await customers.Register();
             Console.ReadKey();
             break;
-        case 2:
-            bookingmenu();
+        case ConsoleKey.D2:
+            await bookingmenu();
             break;
-        case 3:
+        case ConsoleKey.Enter:
+            Console.WriteLine("No such option");
+            Console.ReadKey();
+            break;
+        case ConsoleKey.D0:
             Console.Clear();
             Console.WriteLine("Good bye!\n Press any key to continue!");
             Console.ReadKey();
@@ -44,7 +48,7 @@ do
     }
 } while (!endprogram);
 
-void bookingmenu()
+async Task bookingmenu()
 {
     bool returntomainmenu = false;
     do
@@ -59,32 +63,37 @@ void bookingmenu()
                       "5. Rooms\n\n" +
                       "0. Return to main menu");
         Console.Write("Enter choice:  ");
-        int.TryParse(Console.ReadLine(), out int answer);
+        ConsoleKeyInfo keyPressed = Console.ReadKey();
 
-        switch (answer)
+        switch (keyPressed.Key)
         {
             default:
                 Console.WriteLine("No such option");
                 Console.ReadKey();
                 break;
-            case 1:
+            case ConsoleKey.D1:
+                Console.Clear();
                 Console.WriteLine("1. create new booking");
                 Console.ReadKey();
                 break;
-            case 2:
+            case ConsoleKey.D2:
                 Console.WriteLine("edit booking");
                 Console.ReadKey();
                 break;
-            case 3:
+            case ConsoleKey.D3:
                 Console.WriteLine("view booking");
                 Console.ReadKey();
                 break;
-            case 4:
+            case ConsoleKey.D4:
                 Console.WriteLine("delete booking");
                 Console.ReadKey();
                 break;
-            case 5:
-                Task search = searchpagemenu();
+            case ConsoleKey.D5:
+                await searchpagemenu();
+                break;
+            case ConsoleKey.Enter:
+                Console.WriteLine("No such option");
+                Console.ReadKey();
                 break;
             case 0:
                 Console.Clear();
@@ -109,32 +118,36 @@ async Task searchpagemenu()
                           "4. Sort by distance to beach\n\n" +
                           "0. Return to bookings menu");
         Console.Write("Enter choice:  ");
-        int.TryParse(Console.ReadLine(), out int answer);
+        ConsoleKeyInfo keyPressed = Console.ReadKey();
 
-        switch (answer)
+        switch (keyPressed.Key)
         {
             default:
                 Console.WriteLine("No such option");
                 Console.ReadKey();
                 break;
-            case 1:
+            case ConsoleKey.D1:
                 Console.Clear();
                 Console.WriteLine(await sort.RoomsPriceASC());
                 Console.ReadKey();
                 break;
-            case 2:
+            case ConsoleKey.D2:
                 Console.Clear();
-                Console.WriteLine(await sort.RoomsReviewsDESC()); 
+                Console.WriteLine("Rooms sorted by reviews in desc ordning\nNr || Size || Location ID || Price || Reviews\n" + await sort.RoomsReviewsDESC()); 
                 Console.ReadKey();
                 break;
-            case 3:
+            case ConsoleKey.D3:
                 Console.Clear();
                 Console.WriteLine("city");
                 Console.ReadKey();
                 break;
-            case 4:
+            case ConsoleKey.D4:
                 Console.Clear();
                 Console.WriteLine("beach");
+                Console.ReadKey();
+                break;
+            case ConsoleKey.Enter:
+                Console.WriteLine("No such option");
                 Console.ReadKey();
                 break;
             case 0:
