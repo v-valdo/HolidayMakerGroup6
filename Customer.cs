@@ -77,18 +77,12 @@ public class Customer
 		const string query = "select * from customers;";
 		var reader = await db.CreateCommand(query).ExecuteReaderAsync();
 
-		List<string> Customers = new();
+		Console.WriteLine("ID    | Firstname       | Surname         ");
+		Console.WriteLine("******|*****************|*************");
 
 		while (await reader.ReadAsync())
 		{
-			string customerInfo = $"{reader.GetInt32(0),-5} | {reader.GetString(1),-15} | {reader.GetString(2),-15}";
-			Customers.Add(customerInfo);
-		}
-		Console.WriteLine("ID    | Firstname       | Surname         ");
-		Console.WriteLine("******|*****************|*************");
-		foreach (var item in Customers)
-		{
-			Console.WriteLine(item);
+			Console.WriteLine($"{reader.GetInt32(0),-5} | {reader.GetString(1),-15} | {reader.GetString(2),-15}");
 		}
 		Console.WriteLine();
 	}

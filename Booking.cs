@@ -52,11 +52,14 @@ public class Booking
 
 		Console.WriteLine($"Press any key to select from all customers");
 		Console.ReadKey();
+		Console.Clear();
 
-		await customer.ShowAll();
 
 		while (true)
 		{
+			Console.Clear();
+			await customer.ShowAll();
+
 			Console.Write("Pick a customer (ID) to create booking for: ");
 
 			string customerQuery = "select id, first_name, last_name FROM customers where id = @customerID";
@@ -75,8 +78,6 @@ public class Booking
 					customer.firstName = reader.GetString(1);
 					customer.surName = reader.GetString(2);
 
-					Console.Clear();
-
 					Console.WriteLine($"You picked customer \"{customer.firstName} {customer.surName}\" with ID {customer.customerID}\n");
 
 					Console.Write($"Proceed to room selection? (Y/N): ");
@@ -89,7 +90,6 @@ public class Booking
 						{
 							Console.Clear();
 							await booking.AssignRoom(booking);
-							break;
 						}
 						else if (input.ToLower() == "n")
 						{
@@ -121,6 +121,7 @@ public class Booking
 
 	public async Task AssignDates(int roomId, Booking booking)
 	{
+		Console.Clear();
 		Console.Write("Enter start date for booking [YYYY-MM-DD]: ");
 		if (!DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
 		{
@@ -149,12 +150,15 @@ public class Booking
 
 		if (available)
 		{
+			Console.Clear();
 			Console.WriteLine("Room available!");
 			// spara datum i variabel för insert senare
-			Console.WriteLine($"Booking dates: {startDate} to {endDate}");
+			Console.WriteLine($"Booking dates: {startDate.ToShortDateString()} to {endDate.ToShortDateString()}");
+			await booking.Confirm();
 		}
 		else
 		{
+			Console.Clear();
 			Console.WriteLine($"Room is not available between {startDate} and {endDate}\n Please pick another room");
 			await booking.AssignRoom(booking);
 		}
@@ -172,9 +176,9 @@ public class Booking
 
 		var cmd = db.CreateCommand(query);
 
-		cmd.Parameters.AddWithValue("room_id", roomId);
-		cmd.Parameters.AddWithValue("start_date", startDate);
-		cmd.Parameters.AddWithValue("end_date", endDate);
+		cmd.Parameters.AddWithValue("roomid", roomId);
+		cmd.Parameters.AddWithValue("startdate", startDate);
+		cmd.Parameters.AddWithValue("enddate", endDate);
 
 		var reader = await cmd.ExecuteReaderAsync();
 
@@ -217,13 +221,16 @@ public class Booking
 
 	}
 
-	public async Task Insert()
+	public async Task Confirm()
 	{
 		// skriv in bokning
+		Console.WriteLine("Type \"CONFIRM\" to confirm booking");
+		Console.ReadLine();
 	}
 
 	public async Task AssignRoom(Booking booking)
 	{
+		Console.Clear();
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
 		Room room = new();
@@ -232,6 +239,7 @@ public class Booking
 		{
 			await room.ViewAll();
 			Console.WriteLine();
+
 			Console.Write("Pick a room (ID): ");
 
 			if (int.TryParse(Console.ReadLine(), out int selectedRoom))
@@ -245,6 +253,7 @@ public class Booking
 
 				if (await reader.ReadAsync())
 				{
+					Console.Clear();
 					Console.WriteLine($"You picked room with ID {selectedRoom}\nProceed to assign dates (Y/N)?");
 
 					string? input = Console.ReadLine();
