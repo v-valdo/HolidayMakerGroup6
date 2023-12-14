@@ -20,7 +20,7 @@ do
                         "\n1. Register new customer\n" +
                         "2. Bookings\n\n" +
                         "0. Exit");
-    Console.Write("Enter choice:  ");
+    Console.Write("\nTo choice menuoption, press key 0 - 2:  ");
     ConsoleKeyInfo keyPressed = Console.ReadKey();
 
     switch (keyPressed.Key)
@@ -37,13 +37,9 @@ do
         case ConsoleKey.D2:
             await bookingmenu();
             break;
-        case ConsoleKey.Enter:
-            Console.WriteLine("No such option");
-            Console.ReadKey();
-            break;
         case ConsoleKey.D0:
             Console.Clear();
-            Console.WriteLine("Good bye!\n Press any key to continue!");
+            Console.WriteLine("Good bye!\nPress any key to continue!");
             Console.ReadKey();
             Environment.Exit(0);
             break;
@@ -64,7 +60,7 @@ async Task bookingmenu()
                       "4. View bookings\n" +
                       "5. Rooms\n\n" +
                       "0. Return to main menu");
-        Console.Write("Enter choice:  ");
+        Console.Write("\nTo choice menuoption, press key 0 - 5: ");
         ConsoleKeyInfo keyPressed = Console.ReadKey();
 
         switch (keyPressed.Key)
@@ -93,13 +89,9 @@ async Task bookingmenu()
             case ConsoleKey.D5:
                 await searchpagemenu();
                 break;
-            case ConsoleKey.Enter:
-                Console.WriteLine("\nNo such option");
-                Console.ReadKey();
-                break;
             case ConsoleKey.D0:
                 Console.Clear();
-                Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
+                Console.WriteLine("You have chosen to return to main menu.\nPress any key to continue!");
                 Console.ReadKey();
                 returntomainmenu = true; return;
         }
@@ -113,53 +105,61 @@ async Task searchpagemenu()
     do
     {
         Console.Clear();
-        Console.WriteLine("---- Rooms ----\n\n" +
-                          "1. Sort by price ASC\n" +
-                          "2. Sort by reviews DESC\n" +
-                          "3. Sort by distance to city\n" +
-                          "4. Sort by distance to beach\n\n" +
-                          "0. Return to bookings menu");
-        Console.Write("Enter choice:  ");
+        Console.WriteLine("|----------- Rooms ------------|\n" +
+                          "| 1. Sort by price ASC         |\n" +
+                          "| 2. Sort by reviews DESC      |\n" +
+                          "| 3. Sort by distance to city  |\n" +
+                          "| 4. Sort by distance to beach |\n" +
+                          "|                              |\n" +
+                          "| 0. Return to bookings menu   |\n" +
+                          "|------------------------------|\n");
+        Console.Write("\nTo choice menuoption, press key 0 - 4:  ");
         ConsoleKeyInfo keyPressed = Console.ReadKey();
 
         switch (keyPressed.Key)
         {
             default:
-                Console.WriteLine("\nNo such option");
+                Console.WriteLine("\nNo such option in menu");
                 Console.ReadKey();
                 break;
             case ConsoleKey.D1:
                 Console.Clear();
-                Console.WriteLine("Rooms sorted by price in asc order\n" + 
-                                  " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" + 
-                                  await sort.RoomsPriceASC());
+                Console.WriteLine("Rooms sorted by: Price in ascending order\n" +
+                                  " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" +
+                                  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+                                  await sort.RoomsPriceASC() +
+                                  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+                                  "\nPress any key to return to booking menu!");
                 Console.ReadKey();
                 break;
             case ConsoleKey.D2:
                 Console.Clear();
-                Console.WriteLine("Rooms sorted by reviews in desc order\n" +
-                                 " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" + 
-                                 await sort.RoomsReviewsDESC()); 
+                Console.WriteLine("Rooms sorted by: Reviews in descending order\n\n" +
+                                 " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" +
+                                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+                                 await sort.RoomsReviewsDESC() +
+                                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+                                 "\nPress any key to return to booking menu!"); 
                 Console.ReadKey();
                 break;
             case ConsoleKey.D3:
                 Console.Clear();
-                Console.WriteLine("city");
+                Console.WriteLine(//await sort.DistanceToCity() +
+                                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
+                                 "\nPress any key to return to booking menu!");
                 Console.ReadKey();
                 break;
             case ConsoleKey.D4:
                 Console.Clear();
-                Console.WriteLine("beach");
-                Console.ReadKey();
-                break;
-            case ConsoleKey.Enter:
-                Console.WriteLine("No such option");
+                Console.WriteLine(await sort.DistanceToBeach() +
+                                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
+                                 "\nPress any key to return to booking menu!");
                 Console.ReadKey();
                 break;
             case ConsoleKey.D0:
                 Console.Clear();
-                Console.WriteLine("You have chosen to return to main menu.\n Press any key to continue!");
-                Console.ReadKey();
+                Console.WriteLine("\nReturing to booking menu...");
+                await Task.Delay(2500);
                 returntomainmenu = true; return;
         }
     } while (!returntomainmenu);
