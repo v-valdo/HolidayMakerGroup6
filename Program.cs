@@ -129,9 +129,7 @@ async Task searchpagemenu()
                 break;
             case ConsoleKey.D1:
                 Console.Clear();
-                var roomsResult = "\nSorting rooms by price ASC...\n" + await sort.RoomsPriceASC();
-                Console.WriteLine(roomsResult);
-                Console.WriteLine("Press any key to continue...");
+                Console.WriteLine(await sort.RoomsPriceASC());
                 Console.ReadKey();
                 break;
             case ConsoleKey.D2:
