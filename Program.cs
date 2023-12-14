@@ -130,12 +130,16 @@ async Task searchpagemenu()
                 break;
             case ConsoleKey.D1:
                 Console.Clear();
-                Console.WriteLine(" Room Number || Room Size   || Location ID || Room Price  || Reviews\n" + await sort.RoomsPriceASC());
+                Console.WriteLine("Rooms sorted by price in asc order\n" + 
+                                  " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" + 
+                                  await sort.RoomsPriceASC());
                 Console.ReadKey();
                 break;
             case ConsoleKey.D2:
                 Console.Clear();
-                Console.WriteLine("Rooms sorted by reviews in desc ordning\nNr || Size || Location ID || Price || Reviews\n" + await sort.RoomsReviewsDESC()); 
+                Console.WriteLine("Rooms sorted by reviews in desc order\n" +
+                                 " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" + 
+                                 await sort.RoomsReviewsDESC()); 
                 Console.ReadKey();
                 break;
             case ConsoleKey.D3:
