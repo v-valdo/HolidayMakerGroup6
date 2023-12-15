@@ -46,11 +46,11 @@ do
 
 async Task bookingmenu()
 {
-	bool returntomainmenu = false;
+    Extras extras = new(db);
+    bool returntomainmenu = false;
 	do
 	{
 		Booking booking = new();
-		Extras extras = new();
 
 		Console.Clear();
 		// choice "view bookings"
@@ -59,15 +59,16 @@ async Task bookingmenu()
 					  "2. Edit booking\n" +
 					  "3. Delete booking\n" +
 					  "4. View bookings\n" +
-					  "5. Rooms\n\n" +
-					  "0. Return to main menu");
+					  "5. Rooms\n" +
+                      "6. View extras\n\n" +
+                      "0. Return to main menu");
 		Console.Write("\nTo choice menuoption, press key 0 - 5: ");
 		ConsoleKeyInfo keyPressed = Console.ReadKey();
 
 		switch (keyPressed.Key)
 		{
 			default:
-				Console.WriteLine("No such option");
+				Console.WriteLine("\nNo such option");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D1:
@@ -91,7 +92,9 @@ async Task bookingmenu()
 				await searchpagemenu();
 				break;
 			case ConsoleKey.D6:
-				await extras.ShowAll();
+				Console.Clear();
+				Console.WriteLine(await extras.ShowAll());
+				Console.ReadKey();
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
