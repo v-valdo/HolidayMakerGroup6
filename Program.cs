@@ -4,7 +4,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
-
+Booking b = new();
+await b.New();
 // Creates all tables for the database
 TableCreation tables = new();
 await tables.Create();
@@ -145,7 +146,7 @@ async Task searchpagemenu()
                 break;
             case ConsoleKey.D3:
                 Console.Clear();
-                Console.WriteLine(//await sort.DistanceToCity() +
+                Console.WriteLine(await sort.DistanceToCity() +
                                  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
                                  "\nPress any key to return to booking menu!");
                 Console.ReadKey();

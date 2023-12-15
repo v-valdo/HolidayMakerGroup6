@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 using System.Threading.Tasks;
 namespace HolidayMakerGroup6;
 public class Customer
@@ -97,27 +97,22 @@ public class Customer
 
     // fungerande lista från databasen
     public async Task ShowAll()
-    {
-        await using var db = NpgsqlDataSource.Create(Database.Url);
+	{
+		await using var db = NpgsqlDataSource.Create(Database.Url);
 
-        const string query = "select first_name, last_name from customers;";
-        var reader = await db.CreateCommand(query).ExecuteReaderAsync();
+		const string query = "select * from customers;";
+		var reader = await db.CreateCommand(query).ExecuteReaderAsync();
 
-        List<string> allcustomers = new();
+		Console.WriteLine("ID    | Firstname       | Surname         ");
+		Console.WriteLine("******|*****************|*************");
 
-        while (await reader.ReadAsync())
-        {
-            allcustomers.Add($"{reader.GetString(0)} {reader.GetString(1)}");
-        }
-
-        int indexer = 1;
-        foreach (var item in allcustomers)
-        {
-            Console.WriteLine($"{indexer}. {item}");
-            indexer++;
-        }
-
-    }
+		while (await reader.ReadAsync())
+		{
+			Console.WriteLine($"{reader.GetInt32(0),-5} | {reader.GetString(1),-15} | {reader.GetString(2),-15}");
+		}
+		Console.WriteLine();
+	}
+  
     public async Task<bool> CustomerExists(string email, int phoneNumber)
     {
         await using var db = NpgsqlDataSource.Create(Database.Url);
