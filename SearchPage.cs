@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using System.Diagnostics.Metrics;
 namespace HolidayMakerGroup6;
 
 public class SearchPage
