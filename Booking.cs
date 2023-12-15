@@ -166,7 +166,8 @@ public class Booking
 
 	public async Task AddExtras()
 	{
-
+		Extras add = new();
+		await add.ShowAll();
 	}
 	public async Task Edit()
 	{

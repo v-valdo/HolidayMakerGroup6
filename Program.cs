@@ -50,6 +50,7 @@ async Task bookingmenu()
 	do
 	{
 		Booking booking = new();
+		Extras extras = new();
 
 		Console.Clear();
 		// choice "view bookings"
@@ -88,6 +89,9 @@ async Task bookingmenu()
 				break;
 			case ConsoleKey.D5:
 				await searchpagemenu();
+				break;
+			case ConsoleKey.D6:
+				await extras.ShowAll();
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
