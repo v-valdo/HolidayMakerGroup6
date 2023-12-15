@@ -144,7 +144,7 @@ async Task searchpagemenu()
                 break;
             case ConsoleKey.D3:
                 Console.Clear();
-                Console.WriteLine(//await sort.DistanceToCity() +
+                Console.WriteLine(await sort.DistanceToCity() +
                                  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
                                  "\nPress any key to return to booking menu!");
                 Console.ReadKey();
