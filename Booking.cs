@@ -4,7 +4,7 @@ namespace HolidayMakerGroup6;
 public class Booking
 {
 	public int RoomID;
-	public double Total;
+	private double _total;
 	public async Task New()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
@@ -22,12 +22,16 @@ public class Booking
 
 			await customer.ShowAll();
 
-			Console.Write("Pick a customer (ID) to create booking for: ");
+			Console.Write("Enter a customer (ID) or 0 to return: ");
 
 			string customerQuery = "select id, first_name, last_name FROM customers where id = @customerID";
 
 			if (int.TryParse(Console.ReadLine(), out int selectedID))
 			{
+				if (selectedID == 0)
+				{
+					break;
+				}
 				var cmd = db.CreateCommand(customerQuery);
 
 				cmd.Parameters.AddWithValue("customerID", selectedID);
@@ -44,16 +48,16 @@ public class Booking
 
 					Console.Write($"Proceed to room selection? (Y/N): ");
 
-					string? input = Console.ReadLine();
+					ConsoleKeyInfo input = Console.ReadKey();
 
 					while (true)
 					{
-						if (input.ToLower() == "y")
+						if (input.Key == ConsoleKey.Y)
 						{
 							Console.Clear();
 							await booking.AssignRoom(booking);
 						}
-						else if (input.ToLower() == "n")
+						else if (input.Key == ConsoleKey.N)
 						{
 							break;
 						}
@@ -230,10 +234,13 @@ public class Booking
 			await room.ViewAll();
 			Console.WriteLine();
 
-			Console.Write("Pick a room (ID): ");
-
+			Console.Write("Enter a room (ID) or 0 to return ");
 			if (int.TryParse(Console.ReadLine(), out int selectedRoom))
 			{
+				if (selectedRoom == 0)
+				{
+					break;
+				}
 				string roomQuery = "select id from rooms where id = @roomid";
 				var cmd = db.CreateCommand(roomQuery);
 
@@ -246,16 +253,16 @@ public class Booking
 					Console.Clear();
 					Console.WriteLine($"You picked room with ID {selectedRoom}\nProceed to assign dates (Y/N)?");
 
-					string? input = Console.ReadLine();
+					ConsoleKeyInfo input = Console.ReadKey();
 					while (true)
 					{
-						if (input.ToLower() == "y")
+						if (input.Key == ConsoleKey.Y)
 						{
 							Console.Clear();
 							await booking.AssignDates(selectedRoom, booking);
 							break;
 						}
-						else if (input.ToLower() == "n")
+						else if (input.Key == ConsoleKey.N)
 						{
 							break;
 						}
