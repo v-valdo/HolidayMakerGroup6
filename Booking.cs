@@ -188,7 +188,7 @@ public class Booking
 
 		using var reader = await cmd.ExecuteReaderAsync();
 
-		string result = "Booking ID || Customer ID    || StartDate      || EndDate        || Room ID     || Nr of People   || Price\n" +
+		string result = "Booking ID || Customer ID    || StartDate      || EndDate        || Room ID     || Guests      || Price\n" +
 			"- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
 		while (await reader.ReadAsync())
 		{
@@ -205,8 +205,8 @@ public class Booking
 					  $"{startDate.ToString("yyyy-MM-dd"),-15}|| " +
 					  $"{endDate.ToString("yyyy-MM-dd"),-15}|| " +
 					  $"{roomId,-12}|| " +
-					  $"{numberOfPeople,-15}|| " +
-					  $"{price,-12}\n";
+					  $"{numberOfPeople,-12}|| " +
+					  $"{price,-12:C}\n";
 		}
 		return result;
 	}
