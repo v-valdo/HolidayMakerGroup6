@@ -4,7 +4,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
-
+Booking b = new();
+await b.New();
 // Creates all tables for the database
 TableCreation tables = new();
 await tables.Create();
