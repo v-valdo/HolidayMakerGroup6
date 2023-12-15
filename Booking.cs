@@ -182,7 +182,7 @@ public class Booking
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
-		const string qAllBookings = @"select * from bookings";
+		const string qAllBookings = @"select * from bookings order by start_date";
 
 		var cmd = db.CreateCommand(qAllBookings);
 

@@ -7,12 +7,6 @@ await using var db = NpgsqlDataSource.Create(Database.Url);
 //tablecreation tables = new();
 //await tables.create();
 
-Booking b = new();
-Console.WriteLine(await b.ShowAll());
-
-Console.ReadKey();
-
-
 // main menu
 bool endprogram = false;
 
@@ -84,11 +78,13 @@ async Task bookingmenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D3:
-				await booking.ShowAll();
+				await booking.Delete();
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D4:
-				await booking.Delete();
+				Console.Clear();
+				string result = await booking.ShowAll();
+				Console.WriteLine(result + "\nPress Any Key to Go Back");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D5:
