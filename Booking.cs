@@ -166,7 +166,7 @@ public class Booking
 
 	public async Task AddExtras()
 	{
-		
+
 	}
 	public async Task Edit()
 	{
