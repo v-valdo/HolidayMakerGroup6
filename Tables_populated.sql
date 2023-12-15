@@ -1,5 +1,5 @@
 --location populated
-INSERT INTO location(name, distance_to_beach, distance_to_city) 
+INSERT INTO locations(name, distance_to_beach, distance_to_city) 
 VALUES  ('tangalooma', 50, 250),
 ('greenside', 100, 200),
 ('rivergate', 150, 150),
