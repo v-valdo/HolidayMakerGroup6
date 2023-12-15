@@ -4,8 +4,13 @@ using Npgsql;
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
 // Creates all tables for the database
-TableCreation tables = new();
-await tables.Create();
+//tablecreation tables = new();
+//await tables.create();
+
+Booking b = new();
+Console.WriteLine(await b.ShowAll());
+
+Console.ReadKey();
 
 
 // main menu
@@ -79,7 +84,7 @@ async Task bookingmenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D3:
-				await booking.List();
+				await booking.ShowAll();
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D4:

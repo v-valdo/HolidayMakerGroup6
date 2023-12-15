@@ -16,7 +16,6 @@ public class Booking
 		Console.ReadKey();
 		Console.Clear();
 
-
 		while (true)
 		{
 			Console.Clear();
@@ -161,7 +160,7 @@ public class Booking
 
 	public async Task Delete()
 	{
-		await List();
+		await ShowAll();
 	}
 
 	public async Task AddExtras()
@@ -171,7 +170,7 @@ public class Booking
 	public async Task Edit()
 	{
 		// Visa alla bookings -> Välj booking att edita
-		await List();
+		await ShowAll();
 	}
 
 	// callable Method summing the total price (incl. extras) for the booking
@@ -179,9 +178,37 @@ public class Booking
 	{
 		// typ Room.Price + Extras.Price
 	}
-	public async Task List()
+	public async Task<string> ShowAll()
 	{
+		await using var db = NpgsqlDataSource.Create(Database.Url);
 
+		const string qAllBookings = @"select * from bookings";
+
+		var cmd = db.CreateCommand(qAllBookings);
+
+		using var reader = await cmd.ExecuteReaderAsync();
+
+		string result = "Booking ID || Customer ID    || StartDate      || EndDate        || Room ID     || Nr of People   || Price\n" +
+			"- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n";
+		while (await reader.ReadAsync())
+		{
+			int bookingId = reader.GetInt32(0);
+			int customerId = reader.GetInt32(1);
+			DateTime startDate = reader.GetDateTime(2);
+			DateTime endDate = reader.GetDateTime(3);
+			int roomId = reader.GetInt32(4);
+			int numberOfPeople = reader.GetInt32(5);
+			decimal price = reader.GetDecimal(6);
+
+			result += $"{bookingId,-11}|| " +
+					  $"{customerId,-15}|| " +
+					  $"{startDate.ToString("yyyy-MM-dd"),-15}|| " +
+					  $"{endDate.ToString("yyyy-MM-dd"),-15}|| " +
+					  $"{roomId,-12}|| " +
+					  $"{numberOfPeople,-15}|| " +
+					  $"{price,-12}\n";
+		}
+		return result;
 	}
 
 	public async Task Confirm()
