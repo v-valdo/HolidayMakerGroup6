@@ -21,11 +21,11 @@ public class Room
 		var reader = await cmd.ExecuteReaderAsync();
 
 		Console.WriteLine("Room ID    | Room Size       | Location       | Price");
-		Console.WriteLine("***********|*****************|***********");
+		Console.WriteLine("***********|*****************|************************");
 
 		while (await reader.ReadAsync())
 		{
-			Console.WriteLine($"{reader.GetInt32(0),-10} | {reader.GetInt32(1),-15} | {reader.GetString(2),-15}");
+			Console.WriteLine($"{reader.GetInt32(0),-10} | {reader.GetInt32(1),-15} | {reader.GetString(2),-15} | {reader.GetInt32(3),-15:C}");
 		}
 	}
 }

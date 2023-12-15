@@ -3,46 +3,8 @@ using Npgsql;
 namespace HolidayMakerGroup6;
 public class Booking
 {
-	public Customer? customer;
 	public int RoomID;
 	public double Total;
-	public async Task Menu()
-	{
-		while (true)
-		{
-			Console.WriteLine("---- Bookings ----\n" +
-						  "1. Create new booking\n" +
-						  "2. Edit booking\n" +
-						  "3. Delete booking\n" +
-						  "4. View bookings\n" +
-						  "5. Return to main menu\n");
-			Console.Write("Enter choice:  ");
-			int.TryParse(Console.ReadLine(), out int answer);
-
-			switch (answer)
-			{
-				case 1:
-					Console.Clear();
-					await New();
-					break;
-				case 2:
-					Console.Clear();
-					await Edit();
-					break;
-				case 3:
-					Console.Clear();
-					await List();
-					break;
-				case 4:
-					Console.Clear();
-					Console.ReadKey();
-					break;
-				case 5:
-					Console.Clear();
-					return;
-			}
-		}
-	}
 	public async Task New()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
@@ -58,6 +20,7 @@ public class Booking
 		while (true)
 		{
 			Console.Clear();
+
 			await customer.ShowAll();
 
 			Console.Write("Pick a customer (ID) to create booking for: ");
@@ -289,5 +252,4 @@ public class Booking
 			}
 		}
 	}
- }
 }
