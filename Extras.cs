@@ -53,10 +53,14 @@ public class Extras
                 return answer;
             }
 
-            using var cmd = _db.CreateCommand("insert into extra_service_and_bookings (booking_id, extra_service_id) values (@booking_id, @extra_service_id)");
-            cmd.Parameters.AddWithValue("@booking_id", parsedbookingid);
-            cmd.Parameters.AddWithValue("@extra_service_id", parsedextraserviceid);
-            
+            //using var cmd = _db.CreateCommand("insert into extra_service_and_bookings (booking_id, extra_service_id) values (@booking_id, @extra_service_id)");
+            //cmd.Parameters.AddWithValue("@booking_id", parsedbookingid);
+            //cmd.Parameters.AddWithValue("@extra_service_id", parsedextraserviceid);
+
+            //await cmd.ExecuteNonQueryAsync();
+
+            using var cmd = _db.CreateCommand($"INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ({parsedbookingid}, {parsedextraserviceid})");
+
             await cmd.ExecuteNonQueryAsync();
             return "Record added successfully!";
         }
