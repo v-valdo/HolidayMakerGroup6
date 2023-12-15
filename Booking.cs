@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 
 namespace HolidayMakerGroup6;
 public class Booking
@@ -289,4 +289,5 @@ public class Booking
 			}
 		}
 	}
+ }
 }

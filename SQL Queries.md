@@ -20,4 +20,37 @@ insert into extra_service_and_bookings(booking_id, extra_service_name)
 values (1, 'private jet');
 ```
 
+### Ordna sökträffar - omdömme (högt till lågt)
 
+Grundprincipen på hur man sorterar högt till lågt
+
+```
+SELECT * 
+FROM rooms
+ORDER BY reviews DESC;
+```
+
+### Ordna sökträffar - recensioner (lågt till högt)
+
+Grundprincipen på hur man sorterar lågt till högt
+```
+SELECT *
+FROM rooms
+ORDER BY price ASC;
+```
+
+### Ordna sökträffar - boendes avstånd till strand (lågt till högt)
+```
+select rooms.id room_id, location.distance_to_beach, rooms.size room_size
+from rooms
+join location on rooms.location_name = location.name
+order by location.distance_to_beach ASC;
+```
+
+### Ordna sökträffar - boendes avstånd till stad (lågt till högt)
+```
+select rooms.id room_id, location.distance_to_city, rooms.size room_size
+from rooms
+join location on rooms.location_name = location.name
+order by location.distance_to_city ASC;
+```
