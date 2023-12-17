@@ -75,7 +75,7 @@ async Task bookingmenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D2:
-				await booking.Edit();
+				await booking.SelectEdit();
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D3:

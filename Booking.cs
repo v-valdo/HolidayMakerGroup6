@@ -8,10 +8,6 @@ public class Booking
 	public int RoomID;
 	public double Total;
 
-	public async Task Add()
-	{
-
-	}
 	public async Task New()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
@@ -175,10 +171,6 @@ public class Booking
 	{
 
 	}
-	public async Task Edit()
-	{
-        List();
-    }
 		
     public void CalculatePrice()
 	{
@@ -192,7 +184,7 @@ public class Booking
 
         await connection.OpenConnectionAsync();
 
-        using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS Customer, b.customer_id AS CustomerID, b.id AS BookingID, (b.start_date || ' - ' || b.end_date) AS StartdateEndDate FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id;");
+        using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS Customer, b.customer_id AS CustomerID, b.id AS BookingID, (b.start_date || ' - ' || b.end_date) AS StartdateEndDate, room_id AS RoomID FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id;");
 
         using var reader = await cmd.ExecuteReaderAsync();
 
@@ -205,15 +197,258 @@ public class Booking
             string customerName = reader.GetString(reader.GetOrdinal("Customer"));
             int customerId = reader.GetInt32(reader.GetOrdinal("CustomerID"));
             int bookingId = reader.GetInt32(reader.GetOrdinal("BookingID"));
+            int roomID = reader.GetInt32(reader.GetOrdinal("RoomID"));
             string startdateEndDate = reader.GetString(reader.GetOrdinal("StartdateEndDate"));
 
 
-            Console.WriteLine($"{count}. {customerName}, Customer ID: {customerId}, Booking ID: {bookingId}, Date: {startdateEndDate}");
+            Console.WriteLine($"BookingID: {bookingId} Name: {customerName}, Customer ID: {customerId}, Date: {startdateEndDate}, RoomID: {roomID}");
             count++;
         }
     }
-	
-	public async Task Confirm()
+    public async Task SelectEdit()
+    {
+        await List();
+        Console.WriteLine("---------------------------------------------------------------------------------------------");
+        Console.Write("Choose a BookingID to edit: ");
+        if (int.TryParse(Console.ReadLine(), out int selectedBookingNumber))
+        {
+            Console.Clear();
+            await EditBooking(selectedBookingNumber);
+
+        }
+        else
+        {
+            Console.WriteLine("Invalid input.");
+            Console.Clear();
+
+        }
+    }
+    public async Task EditBooking(int bookingNumber)
+    {
+        await using var connection = NpgsqlDataSource.Create(Database.Url);
+        await connection.OpenConnectionAsync();
+
+        using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS CustomerName, * FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id WHERE b.id = @BookingID;");
+        cmd.Parameters.AddWithValue("BookingID", bookingNumber);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+
+        if (await reader.ReadAsync())
+        {
+            string customerName = reader.GetString(reader.GetOrdinal("CustomerName"));
+            int customerId = reader.GetInt32(reader.GetOrdinal("customer_id"));
+            DateTime startDate = reader.GetDateTime(reader.GetOrdinal("start_date"));
+            DateTime endDate = reader.GetDateTime(reader.GetOrdinal("end_date"));
+            int roomId = reader.GetInt32(reader.GetOrdinal("room_id"));
+            int numberOfPeople = reader.GetInt32(reader.GetOrdinal("number_of_people"));
+            int price = reader.GetInt32(reader.GetOrdinal("price"));
+
+            Console.WriteLine("Editing Customer: " + customerName);
+            Console.WriteLine("------------------------------");
+            Console.WriteLine($"Booking ID: " + bookingNumber);
+            Console.WriteLine("Customer ID: " + customerId);
+            Console.WriteLine("Start Date: " + startDate.ToShortDateString());
+            Console.WriteLine("End Date: " + endDate.ToShortDateString());
+            Console.WriteLine("Room ID: " + roomId);
+            Console.WriteLine("Number of People: " + numberOfPeople);
+            Console.WriteLine("Price: " + price);
+
+
+            Console.WriteLine("------------------");
+            Console.WriteLine("Choose an option:");
+            Console.WriteLine("1. Edit Start Date");
+            Console.WriteLine("2. Edit End Date");
+            Console.WriteLine("3. Edit Room ID");
+            Console.WriteLine("4. Edit Number of People");
+            Console.WriteLine("5. Edit Price");
+
+            Console.Write("Enter your choice: ");
+            if (int.TryParse(Console.ReadLine(), out int userChoice))
+            {
+                switch (userChoice)
+                {
+                    case 1:
+                        Console.Clear();
+                        await ChangeStartDate(bookingNumber);
+                        break;
+                    case 2:
+                        Console.Clear();
+                        await ChangeEndDate(bookingNumber);
+                        break;
+                    case 3:
+                        Console.Clear();
+                        await ChangeRoomID(bookingNumber);
+                        break;
+                    case 4:
+                        Console.Clear();
+                        await ChangeNoP(bookingNumber);
+                        break;
+                    case 5:
+                        Console.Clear();
+                        await ChangePrice(bookingNumber);
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid input. Returning to main menu.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Returning to main menu.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Booking with ID {bookingNumber} not found.");
+        }
+
+    }
+    public async Task ChangeStartDate(int bookingId)
+    {
+        Console.Write("Enter the new start date (yyyy-mm-dd): ");
+        if (DateTime.TryParse(Console.ReadLine(), out DateTime newStartDate))
+        {
+            await using var connection = NpgsqlDataSource.Create(Database.Url);
+            await connection.OpenConnectionAsync();
+
+            using var cmd = connection.CreateCommand("UPDATE BOOKINGS SET start_date = @StartDate WHERE id = @BookingID;");
+            cmd.Parameters.AddWithValue("StartDate", newStartDate);
+            cmd.Parameters.AddWithValue("BookingID", bookingId);
+
+            int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine($"Start date updated successfully for Booking ID {bookingId}.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to update start date for Booking ID {bookingId}.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. Please enter the date in the format yyyy-mm-dd.");
+        }
+    }
+
+    public async Task ChangeEndDate(int bookingId)
+    {
+        Console.Write("Enter the new end date (yyyy-mm-dd): ");
+        if (DateTime.TryParse(Console.ReadLine(), out DateTime newEndDate))
+        {
+            await using var connection = NpgsqlDataSource.Create(Database.Url);
+            await connection.OpenConnectionAsync();
+
+            using var cmd = connection.CreateCommand("UPDATE BOOKINGS SET end_date = @EndDate WHERE id = @BookingID;");
+            cmd.Parameters.AddWithValue("EndDate", newEndDate);
+            cmd.Parameters.AddWithValue("BookingID", bookingId);
+
+            int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine($"End date updated successfully for Booking ID {bookingId}.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to update end date for Booking ID {bookingId}.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. Please enter the date in the format yyyy-mm-dd.");
+        }
+    }
+    public async Task ChangeRoomID(int bookingId)
+    {
+        Console.Write("Enter the new Room ID: ");
+        if (int.TryParse(Console.ReadLine(), out int newRoomId))
+        {
+            await using var connection = NpgsqlDataSource.Create(Database.Url);
+            await connection.OpenConnectionAsync();
+
+            using var cmd = connection.CreateCommand("UPDATE BOOKINGS SET room_id = @NewRoomId WHERE id = @BookingID;");
+            cmd.Parameters.AddWithValue("NewRoomId", newRoomId);
+            cmd.Parameters.AddWithValue("BookingID", bookingId);
+
+            int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine($"Room ID updated successfully for Booking ID {bookingId}.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to update Room ID for Booking ID {bookingId}.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid Room ID.");
+        }
+    }
+    public async Task ChangeNoP(int bookingId)
+    {
+        Console.Write("Enter the new Number of People: ");
+        if (int.TryParse(Console.ReadLine(), out int newNumberOfPeople))
+        {
+            await using var connection = NpgsqlDataSource.Create(Database.Url);
+            await connection.OpenConnectionAsync();
+
+            using var cmd = connection.CreateCommand("UPDATE BOOKINGS SET number_of_people = @NewNumberOfPeople WHERE id = @BookingID;");
+            cmd.Parameters.AddWithValue("NewNumberOfPeople", newNumberOfPeople);
+            cmd.Parameters.AddWithValue("BookingID", bookingId);
+
+            int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine($"Number of People updated successfully for Booking ID {bookingId}.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to update Number of People for Booking ID {bookingId}.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a numeric value.");
+        }
+    }
+    public async Task ChangePrice(int bookingId)
+    {
+        Console.Write("Enter the new Price: ");
+        if (int.TryParse(Console.ReadLine(), out int newPrice))
+        {
+            await using var connection = NpgsqlDataSource.Create(Database.Url);
+            await connection.OpenConnectionAsync();
+
+            using var cmd = connection.CreateCommand("UPDATE BOOKINGS SET price = @NewPrice WHERE id = @BookingID;");
+            cmd.Parameters.AddWithValue("NewPrice", newPrice);
+            cmd.Parameters.AddWithValue("BookingID", bookingId);
+
+            int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine($"Price updated successfully for Booking ID {bookingId}.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to update Price for Booking ID {bookingId}.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid Price.");
+        }
+    }
+
+
+
+    public async Task Confirm()
 	{
 		// skriv in bokning
 		Console.WriteLine("Type \"CONFIRM\" to confirm booking");
