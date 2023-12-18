@@ -16,11 +16,11 @@ do
 {
 	Console.Clear();
 	Console.WriteLine("|---- HolidayMaker Group 6 ----|\n" +
-                        "|                              |\n" +
-                        "| 1. Register new customer     |\n" +
+						"|                              |\n" +
+						"| 1. Register new customer     |\n" +
 						"| 2. Bookings                  |\n" +
-                        "|                              |\n" +
-                        "| 0. Exit program              |\n" +
+						"|                              |\n" +
+						"| 0. Exit program              |\n" +
 						"|------------------------------|\n");
 	Console.Write("\nTo choice menuoption, press key 0 - 2:  ");
 	ConsoleKeyInfo keyPressed = Console.ReadKey();
@@ -50,28 +50,28 @@ do
 
 async Task bookingmenu()
 {
-    Extras extras = new(db);
-    Booking booking = new();
-    bool returntomainmenu = false;
+	Extras extras = new(db);
+	Booking booking = new();
+	bool returntomainmenu = false;
 	do
 	{
 		Console.Clear();
 		// choice "view bookings"
 		Console.WriteLine("|---------- Bookings ----------|\n" +
-                      "|                              |\n" +
-                      "| 1. Create new booking        |\n" +
+					  "|                              |\n" +
+					  "| 1. Create new booking        |\n" +
 					  "| 2. Edit booking              |\n" +
 					  "| 3. Delete booking            |\n" +
-                      "| 4. View bookings             |\n" +
-                      "|                              |\n" +
-                      "| 5. Rooms                     |\n" +
-                      "|                              |\n" +
-                      "| 6. Add extras to booking     |\n" +
-                      "| 7. View extras               |\n" +
-                      "|                              |\n" +
-                      "|                              |\n" +
-                      "| 0. Return to main menu       |\n" +
-                      "|------------------------------|");
+					  "| 4. View bookings             |\n" +
+					  "|                              |\n" +
+					  "| 5. Rooms                     |\n" +
+					  "|                              |\n" +
+					  "| 6. Add extras to booking     |\n" +
+					  "| 7. View extras               |\n" +
+					  "|                              |\n" +
+					  "|                              |\n" +
+					  "| 0. Return to main menu       |\n" +
+					  "|------------------------------|");
 		Console.Write("\nTo choice menuoption, press key 0 - 7: ");
 		ConsoleKeyInfo keyPressed = Console.ReadKey();
 
@@ -95,27 +95,27 @@ async Task bookingmenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D4:
-				await booking.Delete();
+				await booking.List();
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D5:
 				await searchpagemenu();
 				break;
-            case ConsoleKey.D6:
-                Console.Clear();
-                Console.WriteLine(await extras.Add());
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D7:
-                Console.Clear();
-                Console.WriteLine(await extras.ShowAll());
-                Console.ReadKey();
-                break;
+			case ConsoleKey.D6:
+				Console.Clear();
+				Console.WriteLine(await extras.Add());
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D7:
+				Console.Clear();
+				Console.WriteLine(await extras.ShowAll());
+				Console.ReadKey();
+				break;
 			case ConsoleKey.D0:
-                Console.Clear();
-                Console.WriteLine("\nReturing to main menu...");
-                await Task.Delay(2000);
-                returntomainmenu = true; return;
+				Console.Clear();
+				Console.WriteLine("\nReturing to main menu...");
+				await Task.Delay(2000);
+				returntomainmenu = true; return;
 		}
 	} while (!returntomainmenu);
 }
