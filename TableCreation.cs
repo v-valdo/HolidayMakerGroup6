@@ -74,7 +74,7 @@ public class TableCreation
         const string qExtraServiceBookings = @"
             CREATE TABLE IF NOT EXISTS extra_service_and_bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
-                booking_id SERIAL NOT NULL REFERENCES bookings (id),
+                booking_id SERIAL NOT NULL REFERENCES bookings (id) ON DELETE CASCADE,
                 extra_service_id SERIAL NOT NULL REFERENCES extra_service (id)
             );
         ";

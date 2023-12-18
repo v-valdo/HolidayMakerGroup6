@@ -79,7 +79,7 @@ async Task bookingmenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D3:
-				await booking.List();
+				await booking.SelectDelete();
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D4:
