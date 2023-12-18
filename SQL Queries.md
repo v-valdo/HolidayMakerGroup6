@@ -11,6 +11,7 @@ insert into bookings (customer_id, start_date, end_date, room_id, number_of_peop
 values (1, '2020-06-20', '2020-06-27', 1, 3, 500);
 ```
 
+
 ### Lägg till extratjänst/er
 
 Lägger till "private jet" som extratjänst i booking med ID 1
@@ -19,6 +20,7 @@ Lägger till "private jet" som extratjänst i booking med ID 1
 insert into extra_service_and_bookings(booking_id, extra_service_name)
 values (1, 'private jet');
 ```
+
 
 ### Ordna sökträffar - omdömme (högt till lågt)
 
@@ -30,6 +32,7 @@ FROM rooms
 ORDER BY reviews DESC;
 ```
 
+
 ### Ordna sökträffar - recensioner (lågt till högt)
 
 Grundprincipen på hur man sorterar lågt till högt
@@ -39,6 +42,7 @@ FROM rooms
 ORDER BY price ASC;
 ```
 
+
 ### Ordna sökträffar - boendes avstånd till strand (lågt till högt)
 ```
 select rooms.id room_id, location.distance_to_beach, rooms.size room_size
@@ -47,6 +51,7 @@ join location on rooms.location_name = location.name
 order by location.distance_to_beach ASC;
 ```
 
+
 ### Ordna sökträffar - boendes avstånd till stad (lågt till högt)
 ```
 select rooms.id room_id, location.distance_to_city, rooms.size room_size
@@ -54,6 +59,7 @@ from rooms
 join location on rooms.location_name = location.name
 order by location.distance_to_city ASC;
 ```
+
 
 ### Uppdatera pris - bookings
 
@@ -68,6 +74,7 @@ FROM rooms r
 WHERE b.room_id = r.id 
 ```
 
+
 ### Uppdatera pris - extra_service_and_bookings
 
 Priset för en extra service multiplicerat antalet dagar rummet är bokat.
@@ -78,4 +85,13 @@ SET price = (select e.price * EXTRACT((days from AGE(b.end_date, b.start_date)) 
 					WHERE b.room_id = r.id AND eb.booking_id = b.id AND e.id = eb.extra_service_id)
 FROM rooms r, extra_service e, bookings b
 WHERE b.room_id = r.id AND eb.booking_id = b.id AND e.id = eb.extra_service_id;
+```
+
+
+### Se priset för rummet och extra services för alla bokningar 
+
+```
+select b.id, b.price AS room, e.price AS extra_service
+from bookings b
+join extra_service_and_bookings e on b.id = e.booking_id;
 ```
