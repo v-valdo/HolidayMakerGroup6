@@ -54,3 +54,28 @@ from rooms
 join location on rooms.location_name = location.name
 order by location.distance_to_city ASC;
 ```
+
+### Uppdatera pris - bookings
+
+Priset för rummet multiplicerat med antalet dagar rummet är bokat. 
+Extract funktionen används för att omvandla intervall datatypen (från AGE() funktionen) till numeric.
+```
+UPDATE bookings b
+SET price = (select r.price * (EXTRACT(days from AGE(b.end_date, b.start_date)) + 1)
+			from rooms r
+			WHERE b.room_id = r.id )
+FROM rooms r
+WHERE b.room_id = r.id 
+```
+
+### Uppdatera pris - extra_service_and_bookings
+
+Priset för en extra service multiplicerat antalet dagar rummet är bokat.
+```
+UPDATE extra_service_and_bookings eb
+SET price = (select e.price * EXTRACT((days from AGE(b.end_date, b.start_date)) +1)
+					from rooms r, extra_service e, bookings b
+					WHERE b.room_id = r.id AND eb.booking_id = b.id AND e.id = eb.extra_service_id)
+FROM rooms r, extra_service e, bookings b
+WHERE b.room_id = r.id AND eb.booking_id = b.id AND e.id = eb.extra_service_id;
+```
