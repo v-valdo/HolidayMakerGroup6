@@ -33,7 +33,7 @@ public class Extras
     }
 
     public async Task<string> Add()
-    {  
+    {
 
         try
         {
@@ -49,6 +49,20 @@ public class Extras
             {
                 string answer = "Invalid input. Try again";
 
+                Console.ReadKey();
+                return answer;
+            }
+
+            using var cmd = _db.CreateCommand($"INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ({parsedbookingid}, {parsedextraserviceid})");
+
+            await cmd.ExecuteNonQueryAsync();
+            return "Record added successfully!";
+        }
+        catch (Exception ex)
+        {
+            return $"An error has occurred while adding the extra service to booking:\n\n{ex.Message}";
+        }
 
     }
+
 }
