@@ -60,8 +60,8 @@ async Task bookingmenu()
 					  "3. Delete booking\n" +
 					  "4. View bookings\n" +
 					  "5. Rooms\n" +
-                      "7. Add extras\n" +
-                      "6. View extras\n\n" +
+                      "6. Add extras to booking\n" +
+                      "7. View extras\n\n" +
                       "0. Return to main menu");
 		Console.Write("\nTo choice menuoption, press key 0 - 5: ");
 		ConsoleKeyInfo keyPressed = Console.ReadKey();
@@ -97,11 +97,6 @@ async Task bookingmenu()
 				Console.WriteLine(await extras.ShowAll());
 				Console.ReadKey();
 				break;
-            case ConsoleKey.D7:
-                Console.Clear();
-                Console.WriteLine(booking.AddExtras());
-                Console.ReadKey();
-                break;
 			case ConsoleKey.D0:
 				Console.Clear();
 				Console.WriteLine("You have chosen to return to main menu.\nPress any key to continue!");

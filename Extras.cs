@@ -3,9 +3,9 @@
 namespace HolidayMakerGroup6;
 public class Extras
 {
-
+    public int bookingid;
     private readonly NpgsqlDataSource _db;
-
+    
     public Extras(NpgsqlDataSource db)
     {
         _db = db;
@@ -17,7 +17,7 @@ public class Extras
         const string query = @"select name, price from extra_service;";
 
         await Console.Out.WriteLineAsync("Service              || Price               \n" +
-                                        "---------------------||-----------------------");
+                                         "---------------------||-----------------------");
         var reader = await _db.CreateCommand(query).ExecuteReaderAsync();
         while (await reader.ReadAsync())
         {
@@ -32,31 +32,23 @@ public class Extras
         return result;
     }
 
-    public async Task <string> Add()
-    {
-        string result = string.Empty;
+    public async Task<string> Add()
+    {  
 
-        Console.Clear();
-        Console.Write("Write booking ID:  ");
-        var bookingIdInput = Console.ReadLine();
-
-        Console.Write("Enter extra service ID:  ");
-        var extraIdInput = Console.ReadLine();
-
-        if (!int.TryParse(extraIdInput, out int parsedExtraServiceId) || !int.TryParse(bookingIdInput, out int parsedBookingId))
+        try
         {
-            result += "Invalid input";
-            Console.ReadKey();
-            return result;
-        }
+            Console.Clear();
+            Console.WriteLine("Booking id: ");
+            var bookingidinput = Console.ReadLine();
+            Console.Write("Extras id: ");
+            var extraserviceidinput = Console.ReadLine();
 
-        using var cmd = _db.CreateCommand ("insert into extra_service_and_bookings (booking_id, extra_service_id) values ($0, $1)");
-        cmd.Parameters.AddWithValue("$0", parsedBookingId);
-        cmd.Parameters.AddWithValue("$1", parsedExtraServiceId);
-        await cmd.ExecuteNonQueryAsync();
+            Console.Clear();
 
-        result += "Completed"; 
-        return result;
+            if (!int.TryParse(bookingidinput, out var parsedbookingid) || !int.TryParse(extraserviceidinput, out var parsedextraserviceid))
+            {
+                string answer = "Invalid input. Try again";
+
 
     }
 }
