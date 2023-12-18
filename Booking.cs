@@ -169,7 +169,9 @@ public class Booking
 
 	public async Task AddExtras()
 	{
-
+        await using var db = NpgsqlDataSource.Create(Database.Url);
+        Extras extras = new(db);
+        await Console.Out.WriteLineAsync(await extras.Add()); 
 	}
 		
     public void CalculatePrice()
