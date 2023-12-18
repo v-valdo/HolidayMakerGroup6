@@ -3,18 +3,14 @@
 namespace HolidayMakerGroup6;
 public class Room
 {
-	public double Size;
-	public double Price;
-	public Location? Location;
-	public double Review;
 
 	// exempel
 	public async Task ViewAll()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
-		const string? query = @"select rooms.id, rooms.size, location.name, rooms.price from rooms
-								join location
-								on rooms.location_id = location.id;";
+		const string? query = @"select rooms.id, rooms.size, locations.name, rooms.price from rooms
+								join locations
+								on rooms.location_id = locations.id;";
 
 		var cmd = db.CreateCommand(query);
 
