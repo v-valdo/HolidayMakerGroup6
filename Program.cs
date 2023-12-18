@@ -22,7 +22,7 @@ do
                         "|                              |\n" +
                         "| 0. Exit program              |\n" +
                         "|------------------------------|\n");
-    Console.Write("\nTo choice menuoption, press key 0 - 2:  ");
+    Console.Write("\nTo choice menuoption, press key 0 - 4:  ");
     ConsoleKeyInfo keyPressed = Console.ReadKey();
 
     switch (keyPressed.Key)
