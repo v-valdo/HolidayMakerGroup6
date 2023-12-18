@@ -1,6 +1,4 @@
 
-﻿using Npgsql;
-using System.Runtime.InteropServices;
 using Npgsql;
 namespace HolidayMakerGroup6;
 public class Booking
@@ -120,7 +118,7 @@ public class Booking
 			Console.WriteLine("Room available!");
 			// spara datum i variabel för insert senare
 			Console.WriteLine($"Booking dates: {startDate.ToShortDateString()} to {endDate.ToShortDateString()}");
-			await booking.Confirm();
+			await booking.Confirm(booking);
 		}
 		else
 		{
@@ -135,8 +133,8 @@ public class Booking
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
 		const string query = @"select id from bookings 
-								where room_id = @roomId 
-								AND start_date <= @endDate 
+							where room_id = @roomId 
+							AND start_date <= @endDate 
 								AND end_date <= @startDate
 ";
 
@@ -165,7 +163,61 @@ public class Booking
 	public async Task Delete()
 	{
 		await List();
+
+		await using var db = NpgsqlDataSource.Create(Database.Url);
+
+		const string qDelete = "delete from bookings where id = @bookingID";
+
+		const string qCheck = "select * from bookings where id = @bookingID";
+
+		await using var cmdCheck = db.CreateCommand(qCheck);
+
+
+		Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - -");
+		Console.WriteLine("Select which booking to delete from system");
+
+		while (true)
+		{
+			if (int.TryParse(Console.ReadLine(), out int selectedID))
+			{
+				cmdCheck.Parameters.AddWithValue("@bookingID", selectedID);
+
+				var reader = await cmdCheck.ExecuteReaderAsync();
+				while (await reader.ReadAsync())
+				{
+					if (reader.HasRows)
+					{
+						Console.Clear();
+						string loader = ".....";
+						foreach (char c in loader)
+						{
+							Console.Write(c);
+							Thread.Sleep(250);
+						}
+						Console.Clear();
+						await using var cmdDelete = db.CreateCommand(qDelete);
+						cmdDelete.Parameters.AddWithValue("@bookingID", selectedID);
+
+						await cmdDelete.ExecuteNonQueryAsync();
+
+						Console.WriteLine($"Successfully deleted booking with ID {selectedID}");
+						Console.ReadKey();
+						return;
+					}
+				}
+				Console.Clear();
+				Console.WriteLine($"Booking with ID {selectedID} does not exist.");
+				Console.ReadKey();
+				return;
+			}
+			else
+			{
+				Console.WriteLine("Invalid ID, try again");
+				Console.ReadKey();
+			}
+		}
 	}
+
 
 	public async Task AddExtras()
 	{
@@ -173,14 +225,14 @@ public class Booking
         Extras extras = new(db);
         await Console.Out.WriteLineAsync(await extras.Add()); 
 	}
-		
-    public void CalculatePrice()
+
+	public void CalculatePrice()
 	{
-		
+
 	}
 
-    public async Task List()
-    {
+	public async Task List()
+	{
 		Console.Clear();
         await using var connection = NpgsqlDataSource.Create(Database.Url);
 
