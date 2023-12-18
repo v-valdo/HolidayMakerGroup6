@@ -18,23 +18,23 @@ public class Customer
 		firstName = Console.ReadLine() ?? "Not Specified";
 		Console.Clear();
 
-        if (firstName.Length < 2)
-        {
-            Console.WriteLine("Firstname need to be atleast 2 letters.");
-            return;
-        }
+		if (firstName.Length < 2)
+		{
+			Console.WriteLine("Firstname need to be atleast 2 letters.");
+			return;
+		}
 
-        Console.Write("Surname: ");
+		Console.Write("Surname: ");
 		surName = Console.ReadLine() ?? "Not Specified";
 		Console.Clear();
 
-        if (surName.Length < 2)
-        {
-            Console.WriteLine("Surname need to be atleast 2 letters.");
+		if (surName.Length < 2)
+		{
+			Console.WriteLine("Surname need to be atleast 2 letters.");
 			return;
-        }
+		}
 
-        Console.Write("Email: ");
+		Console.Write("Email: ");
 		email = Console.ReadLine() ?? "Not Specified";
 		Console.Clear();
 
@@ -80,15 +80,15 @@ public class Customer
 
 
 
-            using var cmd = db.CreateCommand("INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES (@first_name, @last_name, @email, @telnumber, @date_of_birth)");
-            cmd.Parameters.AddWithValue("@first_name", firstName);
-            cmd.Parameters.AddWithValue("@last_name", surName);
-            cmd.Parameters.AddWithValue("@email", email);
-            cmd.Parameters.AddWithValue("@telnumber", phoneNumber);
-            cmd.Parameters.AddWithValue("@date_of_birth", DateTime.Parse(DoB));
-            await cmd.ExecuteNonQueryAsync();
+			using var cmd = db.CreateCommand("INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES (@first_name, @last_name, @email, @telnumber, @date_of_birth)");
+			cmd.Parameters.AddWithValue("@first_name", firstName);
+			cmd.Parameters.AddWithValue("@last_name", surName);
+			cmd.Parameters.AddWithValue("@email", email);
+			cmd.Parameters.AddWithValue("@telnumber", phoneNumber);
+			cmd.Parameters.AddWithValue("@date_of_birth", DateTime.Parse(DoB));
+			await cmd.ExecuteNonQueryAsync();
 
-            customerID = await GetID(email);
+			customerID = await GetID(email);
 
 			Console.WriteLine($"Customer {firstName + " " + surName} with CustomerID {customerID} has successfully been added to the database!");
 			Console.WriteLine("Press any key to continue...");

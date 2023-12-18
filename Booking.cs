@@ -17,10 +17,6 @@ public class Booking
 		Booking booking = new();
 		Customer customer = new();
 
-		Console.WriteLine($"Press any key to select from all customers");
-		Console.ReadKey();
-		Console.Clear();
-
 		bool validInput = false;
 
 		while (true)
@@ -62,10 +58,10 @@ public class Booking
 
 							roomId = await AssignRoom(booking);
 
-							if (roomId == 0 || roomId < 30)
+							if (roomId == 0 || roomId > 30)
 							{
 								Console.Clear();
-								Console.WriteLine("Valid room must be assigned to the booking. Please try again.");
+								Console.WriteLine("Valid room must be assigned to the booking. Returning to main menu");
 								Console.ReadKey();
 								break;
 							}
@@ -78,11 +74,15 @@ public class Booking
 						}
 						else if (input.ToLower() == "n")
 						{
+							Console.Clear();
+							Console.WriteLine("Booking Cancelled");
 							break;
 						}
 						else
 						{
+							Console.Clear();
 							Console.WriteLine("Invalid input");
+							break;
 						}
 					}
 				}
@@ -102,19 +102,26 @@ public class Booking
 			break;
 		}
 
-		while (validInput)
+		if (validInput)
 		{
-			Console.Clear();
-			Console.WriteLine("Enter amount of residents");
-			if (int.TryParse(Console.ReadLine(), out int residents))
+			while (true)
 			{
-				if (residents > 5 || residents < 1)
+				Console.Clear();
+				Console.WriteLine("Enter amount of residents");
+				if (int.TryParse(Console.ReadLine(), out int residents))
 				{
-					Console.WriteLine("Max 5 and minimum 1 resident!");
-					Console.ReadKey();
+					if (residents > 5 || residents < 1)
+					{
+						Console.WriteLine("Max 5 and minimum 1 resident! Digits only");
+						Console.ReadLine();
+						continue;
+					}
+					else
+					{
+						numberOfPeople = residents;
+						break;
+					}
 				}
-				numberOfPeople = residents;
-				break;
 			}
 
 			Console.Clear();
@@ -122,7 +129,7 @@ public class Booking
 			customerId = customer.customerID;
 			price = await CalculatePrice(roomId, startDate, endDate);
 
-			Console.WriteLine("Booking Summary");
+			Console.WriteLine("Booking summary");
 			Console.WriteLine("----------------");
 			Console.WriteLine($"Customer ID:          {customerId}");
 			Console.WriteLine($"Room ID:              {roomId}");
@@ -480,16 +487,6 @@ public class Booking
 						}
 						else if (input.ToLower() == "n")
 						{
-							string loader = ".....";
-							Console.WriteLine("Booking cancelled");
-							Console.Write("Returning to main menu");
-
-							foreach (char c in loader)
-							{
-								Console.Write(c);
-								Thread.Sleep(200);
-							}
-
 							return 0;
 						}
 						else
