@@ -3,9 +3,17 @@ namespace HolidayMakerGroup6;
 
 public class TableCreation
 {
+
+    private readonly NpgsqlDataSource _db;
+
+    public TableCreation(NpgsqlDataSource db)
+    {
+        _db = db;
+    }
+
     public async Task Create()
     {
-        await using var db = NpgsqlDataSource.Create(Database.Url);
+        await using var _db = NpgsqlDataSource.Create(Database.Url);
 
         const string qCustomers = @"  
             CREATE TABLE IF NOT EXISTS customers(
@@ -81,6 +89,19 @@ public class TableCreation
             );
         ";
 
+        // Creates all the tables
+        await _db.CreateCommand(qCustomers).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qLocations).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qRooms).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qSearchCriteria).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qCriteriaRooms).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qBookings).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qExtraService).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qExtraServiceBookings).ExecuteNonQueryAsync();
+    }
+
+    public async Task Sequence()
+    {
         const string qAlterSequences = @"
             ALTER SEQUENCE 
                 customers_id_seq RESTART WITH 1;
@@ -100,17 +121,6 @@ public class TableCreation
                 extra_service_and_bookings_id_seq RESTART WITH 1;        
         ";
 
-        // Creates all the tables
-        await db.CreateCommand(qCustomers).ExecuteNonQueryAsync();
-        await db.CreateCommand(qLocations).ExecuteNonQueryAsync();
-        await db.CreateCommand(qRooms).ExecuteNonQueryAsync();
-        await db.CreateCommand(qSearchCriteria).ExecuteNonQueryAsync();
-        await db.CreateCommand(qCriteriaRooms).ExecuteNonQueryAsync();
-        await db.CreateCommand(qBookings).ExecuteNonQueryAsync();
-        await db.CreateCommand(qExtraService).ExecuteNonQueryAsync();
-        await db.CreateCommand(qExtraServiceBookings).ExecuteNonQueryAsync();
-
-        // Needs to be inactive after one startup of program
-        //await db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
+        await _db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
     }
 }
