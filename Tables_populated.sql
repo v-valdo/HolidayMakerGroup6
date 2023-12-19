@@ -110,13 +110,6 @@ VALUES
 ('evening entertainment'),
 ('childrens club');
 
--- Reset SERIAL
--- delete from table;
-
---ALTER sequence table_id_seq restart with 1;
-
---> insert
-
 -- criterias_rooms
 INSERT INTO criteria_rooms (criteria_id,room_id)
 VALUES (3,16),

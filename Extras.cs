@@ -3,7 +3,6 @@
 namespace HolidayMakerGroup6;
 public class Extras
 {
-    public int bookingid;
     private readonly NpgsqlDataSource _db;
     
     public Extras(NpgsqlDataSource db)
@@ -64,5 +63,4 @@ public class Extras
         }
 
     }
-
 }
