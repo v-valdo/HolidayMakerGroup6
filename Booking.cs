@@ -145,6 +145,8 @@ public class Booking
 
 			if (input == "CANCEL")
 			{
+				Console.Clear();
+				Console.WriteLine("Booking cancelled");
 				return;
 			}
 			else if (input == "CONFIRM")
