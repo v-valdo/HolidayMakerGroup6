@@ -11,15 +11,10 @@ public class SearchPage
 		_db = db;
 	}
 
-	// Room menu option 1
-	public async Task<string> RoomsPriceASC()
-	{
-		string result = string.Empty;
-		const string qRoomsPriceSort = @"
-            SELECT *
-            FROM rooms
-            ORDER BY price ASC;
-        ";
+    public async Task<string> RoomsPriceASC()
+    {
+        string result = string.Empty;
+        const string qRoomsPriceSort = @"select * from rooms order by price asc;";
 
 		var reader = await _db.CreateCommand(qRoomsPriceSort).ExecuteReaderAsync();
 		while (await reader.ReadAsync())
@@ -44,15 +39,10 @@ public class SearchPage
 		return result;
 	}
 
-	// Room menu option 2
-	public async Task<string> RoomsReviewsDESC()
-	{
-		string result = string.Empty;
-		const string qRoomsReviewsSort = @"
-            SELECT *
-            FROM rooms
-            ORDER BY reviews DESC;
-        ";
+    public async Task<string> RoomsReviewsDESC()
+    {
+        string result = string.Empty;
+        const string qRoomsReviewsSort = @"select * from rooms order by reviews desc;";
 
 		var reader = await _db.CreateCommand(qRoomsReviewsSort).ExecuteReaderAsync();
 		while (await reader.ReadAsync())
@@ -77,12 +67,11 @@ public class SearchPage
 		return result;
 	}
 
-	// Room menu option 4
-	public async Task<string> DistanceToBeach()
-	{
-		string qDistanceBeach = string.Empty;
-		string result = string.Empty;
-		string distanceHeader = string.Empty;
+    public async Task<string> DistanceToBeach()
+    {
+        string qDistanceBeach = string.Empty;
+        string result = string.Empty;
+        string distanceHeader = string.Empty;
 
 		const string qfiftyMToBeach = @"
                     select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
@@ -166,22 +155,22 @@ public class SearchPage
 					returnToMenu = true; break;
 			}
 
-			// Only prints out rooms if they pick an option
-			if (validanswer == true)
-			{
-				Console.Clear();
-				await Console.Out.WriteLineAsync("Distance to beach: " + distanceHeader + "\n\n" +
-												 "Room Number || Distance to Beach || Room Size   || Location ID || Room Price  || Reviews\n" +
-												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-				using var reader = await _db.CreateCommand(qDistanceBeach).ExecuteReaderAsync();
-				while (await reader.ReadAsync())
-				{
-					string nr = reader.GetInt32(0).ToString();
-					string distanceBeach = reader.GetInt32(1).ToString();
-					string size = reader.GetInt32(2).ToString();
-					string locationID = reader.GetInt32(3).ToString();
-					string price = reader.GetDecimal(4).ToString();
-					string reviews = reader.GetDecimal(5).ToString();
+            if (validanswer == true)
+            {
+                Console.Clear();
+                await Console.Out.WriteLineAsync("Distance to beach: " + distanceHeader + "\n\n" +
+                                                 "Room Number || Distance to Beach || Room Size   || Location ID || Room Price  || Reviews\n" +
+                                                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+                using (var reader = await _db.CreateCommand(qDistanceBeach).ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string nr = reader.GetInt32(0).ToString();
+                        string distanceBeach = reader.GetInt32(1).ToString();
+                        string size = reader.GetInt32(2).ToString();
+                        string locationID = reader.GetInt32(3).ToString();
+                        string price = reader.GetDecimal(4).ToString();
+                        string reviews = reader.GetDecimal(5).ToString();
 
 					result += " " + reader.GetInt32(0) + new string(' ', 11 - nr.Length);
 					result += "||";
@@ -291,23 +280,22 @@ public class SearchPage
 					validanswer = false;
 					returnToMenu = true; break;
 			}
-
-			// Only prints out rooms if they pick an option
-			if (validanswer == true)
-			{
-				Console.Clear();
-				await Console.Out.WriteLineAsync("Distance to city: " + distanceHeader + "\n\n" +
-												 "Room Number || Distance to City  || Room Size   || Location ID || Room Price  || Reviews\n" +
-												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-				using var reader = await _db.CreateCommand(qDistanceCity).ExecuteReaderAsync();
-				while (await reader.ReadAsync())
-				{
-					string nr = reader.GetInt32(0).ToString();
-					string distanceCity = reader.GetInt32(1).ToString();
-					string size = reader.GetInt32(2).ToString();
-					string locationID = reader.GetInt32(3).ToString();
-					string price = reader.GetDecimal(4).ToString();
-					string reviews = reader.GetDecimal(5).ToString();
+            if (validanswer == true)
+            {
+                Console.Clear();
+                await Console.Out.WriteLineAsync("Distance to city: " + distanceHeader + "\n\n" +
+                                                 "Room Number || Distance to City  || Room Size   || Location ID || Room Price  || Reviews\n" +
+                                                 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+                using (var reader = await _db.CreateCommand(qDistanceCity).ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string nr = reader.GetInt32(0).ToString();
+                        string distanceCity = reader.GetInt32(1).ToString();
+                        string size = reader.GetInt32(2).ToString();
+                        string locationID = reader.GetInt32(3).ToString();
+                        string price = reader.GetDecimal(4).ToString();
+                        string reviews = reader.GetDecimal(5).ToString();
 
 					result += " " + reader.GetInt32(0) + new string(' ', 11 - nr.Length);
 					result += "||";

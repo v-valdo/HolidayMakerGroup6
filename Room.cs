@@ -3,12 +3,6 @@
 namespace HolidayMakerGroup6;
 public class Room
 {
-	public double Size;
-	public double Price;
-	public Location? Location;
-	public double Review;
-
-	// exempel
 	public async Task ViewAll()
 	{
 		string result = string.Empty;
