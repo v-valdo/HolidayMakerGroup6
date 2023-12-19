@@ -31,7 +31,7 @@ public class TableCreation
             CREATE TABLE IF NOT EXISTS rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 size INTEGER NOT NULL,
-                location_id SERIAL REFERENCES locations (id),
+                location_id INTEGER REFERENCES locations (id),
                 price DECIMAL(8, 2) NOT NULL,
                 reviews DECIMAL(2, 1) NULL
             );
@@ -47,20 +47,20 @@ public class TableCreation
         const string qCriteriaRooms = @"
             CREATE TABLE IF NOT EXISTS criteria_rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
-                criteria_id SERIAL NOT NULL REFERENCES search_criteria (id),
-                room_id SERIAL NOT NULL REFERENCES rooms (id)
+                criteria_id INTEGER NOT NULL REFERENCES search_criteria (id),
+                room_id INTEGER NOT NULL REFERENCES rooms (id)
             );
         ";
 
         const string qBookings = @"
             CREATE TABLE IF NOT EXISTS bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
-                customer_id SERIAL NOT NULL REFERENCES customers (id),
+                customer_id INTEGER NOT NULL REFERENCES customers (id),
                 start_date DATE NOT NULL,
                 end_date DATE NOT NULL,
-                room_id SERIAL NOT NULL REFERENCES rooms (id),
+                room_id INTEGER NOT NULL REFERENCES rooms (id),
                 number_of_people INTEGER NOT NULL,
-                price INTEGER NOT NULL
+                price DECIMAL (8,2)
             );        
         ";
 
@@ -76,6 +76,10 @@ public class TableCreation
                 id SERIAL NOT NULL PRIMARY KEY,
                 booking_id SERIAL NOT NULL REFERENCES bookings (id) ON DELETE CASCADE,
                 extra_service_id SERIAL NOT NULL REFERENCES extra_service (id)
+                booking_id INTEGER NOT NULL REFERENCES bookings (id),
+                extra_service_id INTEGER NOT NULL REFERENCES extra_service (id),
+                price DECIMAL (8,2),
+                unique (booking_id, extra_service_id)
             );
         ";
 
@@ -95,9 +99,7 @@ public class TableCreation
             ALTER SEQUENCE 
                 extra_service_id_seq RESTART WITH 1;
             ALTER SEQUENCE 
-                extra_service_and_bookings_id_seq RESTART WITH 1;
-            
-        
+                extra_service_and_bookings_id_seq RESTART WITH 1;        
         ";
 
         // Creates all the tables
@@ -109,6 +111,8 @@ public class TableCreation
         await db.CreateCommand(qBookings).ExecuteNonQueryAsync();
         await db.CreateCommand(qExtraService).ExecuteNonQueryAsync();
         await db.CreateCommand(qExtraServiceBookings).ExecuteNonQueryAsync();
-        await db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
+
+        // Needs to be inactive after one startup of program
+        //await db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
     }
 }
