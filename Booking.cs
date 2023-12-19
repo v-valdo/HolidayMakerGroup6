@@ -25,12 +25,18 @@ public class Booking
 
 			await customer.ShowAll();
 			Console.WriteLine();
-			Console.Write("Pick a customer (ID) to create booking for: ");
+			Console.Write("Pick a customer (ID) to create booking for or enter 0 to exit: ");
 
 			string customerQuery = "select id, first_name, last_name FROM customers where id = $1";
 
 			if (int.TryParse(Console.ReadLine(), out int selectedID))
 			{
+				if (selectedID == 0)
+				{
+					Console.Clear();
+					Console.WriteLine("Returning to menu");
+					return;
+				}
 				var cmd = db.CreateCommand(customerQuery);
 
 				cmd.Parameters.AddWithValue(selectedID);
