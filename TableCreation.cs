@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 namespace HolidayMakerGroup6;
 
 public class TableCreation
@@ -15,7 +15,7 @@ public class TableCreation
     {
         await using var _db = NpgsqlDataSource.Create(Database.Url);
 
-        const string qCustomers = @"  
+		const string qCustomers = @"  
             CREATE TABLE IF NOT EXISTS customers(
                 id SERIAL NOT NULL PRIMARY KEY,
                 first_name TEXT NOT NULL,
@@ -26,7 +26,7 @@ public class TableCreation
             );
         ";
 
-        const string qLocations = @"
+		const string qLocations = @"
             CREATE TABLE IF NOT EXISTS locations (
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -35,7 +35,7 @@ public class TableCreation
             );
         ";
 
-        const string qRooms = @"
+		const string qRooms = @"
             CREATE TABLE IF NOT EXISTS rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 size INTEGER NOT NULL,
@@ -45,14 +45,14 @@ public class TableCreation
             );
         ";
 
-        const string qSearchCriteria = @"
+		const string qSearchCriteria = @"
             CREATE TABLE IF NOT EXISTS search_criteria(
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL
             );
         ";
 
-        const string qCriteriaRooms = @"
+		const string qCriteriaRooms = @"
             CREATE TABLE IF NOT EXISTS criteria_rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 criteria_id INTEGER NOT NULL REFERENCES search_criteria (id),
@@ -60,7 +60,7 @@ public class TableCreation
             );
         ";
 
-        const string qBookings = @"
+		const string qBookings = @"
             CREATE TABLE IF NOT EXISTS bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
                 customer_id INTEGER NOT NULL REFERENCES customers (id),
@@ -72,14 +72,14 @@ public class TableCreation
             );        
         ";
 
-        const string qExtraService = @"
+		const string qExtraService = @"
             CREATE TABLE IF NOT EXISTS extra_service(
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
                 price DECIMAL(8, 2) NOT NULL
             );
         ";
-        const string qExtraServiceBookings = @"
+		const string qExtraServiceBookings = @"
             CREATE TABLE IF NOT EXISTS extra_service_and_bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
                 booking_id INTEGER NOT NULL REFERENCES bookings (id) ON DELETE CASCADE,
@@ -88,7 +88,7 @@ public class TableCreation
                 unique (booking_id, extra_service_id)
             );
         ";
-
+      
         await _db.CreateCommand(qCustomers).ExecuteNonQueryAsync();
         await _db.CreateCommand(qLocations).ExecuteNonQueryAsync();
         await _db.CreateCommand(qRooms).ExecuteNonQueryAsync();
