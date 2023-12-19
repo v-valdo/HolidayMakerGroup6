@@ -124,6 +124,7 @@ async Task BookingMenu()
 				Console.Clear();
 				Room room = new();
 				await room.Criterias();
+				Console.ReadKey();
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
