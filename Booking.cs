@@ -166,6 +166,7 @@ public class Booking
 
 				if (insert.IsCompleted)
 				{
+					Console.Clear();
 					Console.WriteLine("BOOKING CONFIRMED");
 					Console.ReadLine();
 				}
