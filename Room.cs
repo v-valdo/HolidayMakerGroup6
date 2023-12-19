@@ -22,8 +22,6 @@ public class Room
 	}
 	public async Task ViewAll()
 	{
-		string result = string.Empty;
-
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
 		const string? query = @"select rooms.id, rooms.size, locations.name, rooms.price from rooms
