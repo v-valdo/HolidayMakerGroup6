@@ -16,8 +16,8 @@ public class Customer
 
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 		Console.Clear();
-
         string heading = "REGISTER CUSTOMER";
+
         Console.WriteLine("╔══════════════════════════════════════╗");
         Console.WriteLine($"║           {heading}          ║");
         Console.WriteLine("╚══════════════════════════════════════╝");
