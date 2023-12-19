@@ -78,14 +78,13 @@ public class Customer
 				return;
 			}
 
-
-
 			using var cmd = db.CreateCommand("INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES (@first_name, @last_name, @email, @telnumber, @date_of_birth)");
 			cmd.Parameters.AddWithValue("@first_name", firstName);
 			cmd.Parameters.AddWithValue("@last_name", surName);
 			cmd.Parameters.AddWithValue("@email", email);
 			cmd.Parameters.AddWithValue("@telnumber", phoneNumber);
 			cmd.Parameters.AddWithValue("@date_of_birth", DateTime.Parse(DoB));
+
 			await cmd.ExecuteNonQueryAsync();
 
 			customerID = await GetID(email);
@@ -129,7 +128,6 @@ public class Customer
 		{
 			Console.WriteLine($"{reader.GetInt32(0),-5} | {reader.GetString(1),-15} | {reader.GetString(2),-15}");
 		}
-		Console.WriteLine();
 	}
 
 	public async Task<bool> CustomerExists(string email, int phoneNumber)

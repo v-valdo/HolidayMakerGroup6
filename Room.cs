@@ -11,6 +11,8 @@ public class Room
 	// exempel
 	public async Task ViewAll()
 	{
+		string result = string.Empty;
+
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 		const string? query = @"select rooms.id, rooms.size, locations.name, rooms.price from rooms
 								join locations
@@ -25,6 +27,7 @@ public class Room
 
 		while (await reader.ReadAsync())
 		{
+			// result += $"{reader.GetInt32(0)}";
 			Console.WriteLine($"{reader.GetInt32(0),-10} | {reader.GetInt32(1),-15} | {reader.GetString(2),-15} | {reader.GetInt32(3),-15:C}");
 		}
 	}

@@ -24,7 +24,7 @@ public class Booking
 			Console.Clear();
 
 			await customer.ShowAll();
-
+			Console.WriteLine();
 			Console.Write("Pick a customer (ID) to create booking for: ");
 
 			string customerQuery = "select id, first_name, last_name FROM customers where id = @customerID";
@@ -139,11 +139,42 @@ public class Booking
 			Console.WriteLine($"Price (excluding extras): {price:C}");
 			Console.WriteLine();
 
-			Console.WriteLine("Please review the booking details and type \"CONFIRM\" to finalize booking");
-			if (customerId == 0 || roomId == 0 || price == 0)
+			Console.WriteLine("Please review the booking details and type \"CONFIRM\" to finalize booking\nEnter \"CANCEL\" to cancel.");
+			string? input = string.Empty;
+			input = Console.ReadLine();
+
+			if (input == "CANCEL")
 			{
-				Console.WriteLine("An error has occurred during the booking process - please create a new booking.");
 				return;
+			}
+			else if (input == "CONFIRM")
+			{
+				string qBook = "insert into bookings(customer_id, start_date, end_date, room_id, number_of_people, price) VALUES (@customerId, @startDate, @endDate, @roomId, @numberOfPeople, @price)";
+
+				using var cmd = db.CreateCommand(qBook);
+
+				cmd.Parameters.AddWithValue("@customerId", customerId);
+				cmd.Parameters.AddWithValue("@startDate", startDate);
+				cmd.Parameters.AddWithValue("@endDate", endDate);
+				cmd.Parameters.AddWithValue("@roomId", roomId);
+				cmd.Parameters.AddWithValue("@numberOfPeople", numberOfPeople);
+				cmd.Parameters.AddWithValue("@price", price);
+
+				var insert = cmd.ExecuteNonQueryAsync();
+
+				await insert;
+
+				if (insert.IsCompleted)
+				{
+					Console.WriteLine("BOOKING CONFIRMED");
+					Console.ReadLine();
+				}
+
+				if (customerId == 0 || roomId == 0 || price == 0)
+				{
+					Console.WriteLine("An error has occurred during the booking process - please create a new booking.");
+					return;
+				}
 			}
 		}
 	}

@@ -3,11 +3,11 @@ namespace HolidayMakerGroup6;
 
 public class TableCreation
 {
-    public async Task Create()
-    {
-        await using var db = NpgsqlDataSource.Create(Database.Url);
+	public async Task Create()
+	{
+		await using var db = NpgsqlDataSource.Create(Database.Url);
 
-        const string qCustomers = @"  
+		const string qCustomers = @"  
             CREATE TABLE IF NOT EXISTS customers(
                 id SERIAL NOT NULL PRIMARY KEY,
                 first_name TEXT NOT NULL,
@@ -18,7 +18,7 @@ public class TableCreation
             );
         ";
 
-        const string qLocations = @"
+		const string qLocations = @"
             CREATE TABLE IF NOT EXISTS locations (
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -27,7 +27,7 @@ public class TableCreation
             );
         ";
 
-        const string qRooms = @"
+		const string qRooms = @"
             CREATE TABLE IF NOT EXISTS rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 size INTEGER NOT NULL,
@@ -37,14 +37,14 @@ public class TableCreation
             );
         ";
 
-        const string qSearchCriteria = @"
+		const string qSearchCriteria = @"
             CREATE TABLE IF NOT EXISTS search_criteria(
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL
             );
         ";
 
-        const string qCriteriaRooms = @"
+		const string qCriteriaRooms = @"
             CREATE TABLE IF NOT EXISTS criteria_rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 criteria_id INTEGER NOT NULL REFERENCES search_criteria (id),
@@ -52,7 +52,7 @@ public class TableCreation
             );
         ";
 
-        const string qBookings = @"
+		const string qBookings = @"
             CREATE TABLE IF NOT EXISTS bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
                 customer_id INTEGER NOT NULL REFERENCES customers (id),
@@ -64,24 +64,24 @@ public class TableCreation
             );        
         ";
 
-        const string qExtraService = @"
+		const string qExtraService = @"
             CREATE TABLE IF NOT EXISTS extra_service(
                 id SERIAL NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
                 price DECIMAL(8, 2) NOT NULL
             );
         ";
-        const string qExtraServiceBookings = @"
+		const string qExtraServiceBookings = @"
             CREATE TABLE IF NOT EXISTS extra_service_and_bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
-                booking_id INTEGER NOT NULL REFERENCES bookings (id),
+                booking_id INTEGER NOT NULL REFERENCES bookings (id) ON DELETE CASCADE,
                 extra_service_id INTEGER NOT NULL REFERENCES extra_service (id),
                 price DECIMAL (8,2),
                 unique (booking_id, extra_service_id)
             );
         ";
 
-        const string qAlterSequences = @"
+		const string qAlterSequences = @"
             ALTER SEQUENCE 
                 customers_id_seq RESTART WITH 1;
             ALTER SEQUENCE 
@@ -100,17 +100,17 @@ public class TableCreation
                 extra_service_and_bookings_id_seq RESTART WITH 1;        
         ";
 
-        // Creates all the tables
-        await db.CreateCommand(qCustomers).ExecuteNonQueryAsync();
-        await db.CreateCommand(qLocations).ExecuteNonQueryAsync();
-        await db.CreateCommand(qRooms).ExecuteNonQueryAsync();
-        await db.CreateCommand(qSearchCriteria).ExecuteNonQueryAsync();
-        await db.CreateCommand(qCriteriaRooms).ExecuteNonQueryAsync();
-        await db.CreateCommand(qBookings).ExecuteNonQueryAsync();
-        await db.CreateCommand(qExtraService).ExecuteNonQueryAsync();
-        await db.CreateCommand(qExtraServiceBookings).ExecuteNonQueryAsync();
+		// Creates all the tables
+		await db.CreateCommand(qCustomers).ExecuteNonQueryAsync();
+		await db.CreateCommand(qLocations).ExecuteNonQueryAsync();
+		await db.CreateCommand(qRooms).ExecuteNonQueryAsync();
+		await db.CreateCommand(qSearchCriteria).ExecuteNonQueryAsync();
+		await db.CreateCommand(qCriteriaRooms).ExecuteNonQueryAsync();
+		await db.CreateCommand(qBookings).ExecuteNonQueryAsync();
+		await db.CreateCommand(qExtraService).ExecuteNonQueryAsync();
+		await db.CreateCommand(qExtraServiceBookings).ExecuteNonQueryAsync();
 
-        // Needs to be inactive after one startup of program
-        //await db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
-    }
+		// Needs to be inactive after one startup of program
+		//await db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
+	}
 }
