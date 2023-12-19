@@ -72,12 +72,13 @@ async Task BookingMenu()
 					  "| 2. Edit booking              |\n" +
 					  "| 3. Delete booking            |\n" +
 					  "| 4. View bookings             |\n" +
-					  "|                              |\n" +
-					  "| 5. Rooms                     |\n" +
-					  "|                              |\n" +
-					  "| 6. Add extras to booking     |\n" +
-					  "| 7. View extras               |\n" +
-					  "| 8. View Criteria             |\n" +
+                      "| 5. View booking extras       |\n" +
+                      "|                              |\n" +
+					  "| 6. Rooms                     |\n" +
+                      "| 7. View criteria             |\n" +
+                      "|                              |\n" +
+                      "| 8. Add extras to booking     |\n" +
+					  "| 9. View extras               |\n" +
 					  "|                              |\n" +
 					  "| 0. Return to main menu       |\n" +
 					  "|------------------------------|");
@@ -108,19 +109,24 @@ async Task BookingMenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D5:
+                Console.Clear();
+                Console.WriteLine(await extras.ViewBookingExtras());
+                Console.ReadKey();
+                break;
+            case ConsoleKey.D6:
 				await SearchPageMenu();
 				break;
-			case ConsoleKey.D6:
+			case ConsoleKey.D7:
 				Console.Clear();
 				Console.WriteLine(await extras.Add());
 				Console.ReadKey();
 				break;
-			case ConsoleKey.D7:
+			case ConsoleKey.D8:
 				Console.Clear();
 				Console.WriteLine(await extras.ShowAllExtras());
 				Console.ReadKey();
 				break;
-			case ConsoleKey.D8:
+			case ConsoleKey.D9:
 				Console.Clear();
 				Room room = new();
 				await room.Criterias();

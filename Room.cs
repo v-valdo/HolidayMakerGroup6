@@ -5,7 +5,7 @@ public class Room
 {
 	public async Task Criterias()
 	{
-		const string qCriterias = "select criteria_rooms.room_id, string_agg(search_criteria.name, ',') from criteria_rooms JOIN search_criteria ON criteria_rooms.criteria_id = search_criteria.id GROUP BY criteria_rooms.room_id order by criteria_rooms.room_id";
+		const string qCriterias = "select criteria_rooms.room_id, string_agg(search_criteria.name, ', ') from criteria_rooms JOIN search_criteria ON criteria_rooms.criteria_id = search_criteria.id GROUP BY criteria_rooms.room_id order by criteria_rooms.room_id";
 
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 		var cmd = db.CreateCommand(qCriterias);

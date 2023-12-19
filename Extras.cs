@@ -78,4 +78,29 @@ public class Extras
         }
 
     }
+    public async Task<string> ViewBookingExtras()
+    {
+        string result = string.Empty;
+        const string query = @"select eb.booking_id, string_agg(e.name, ', ')
+            from extra_service_and_bookings eb 
+            join extra_service e on eb.extra_service_id = e.id
+            group by eb.booking_id
+            order by eb.booking_id
+        ;";
+
+        await Console.Out.WriteLineAsync("Booking ID    || Service             \n" +
+                                         "--------------||---------------------");
+        var reader = await _db.CreateCommand(query).ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            string id = reader.GetInt32(0).ToString();
+            string service = reader.GetString(1);
+
+            result += " " + reader.GetInt32(0) + new string(' ', 13 - id.Length);
+            result += "||";
+            result += " " + reader.GetString(1) + new string(' ',100 - service.Length);
+            result += "\n";
+        }
+        return result;
+    }
 }
