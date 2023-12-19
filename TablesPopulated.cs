@@ -4,7 +4,6 @@ namespace HolidayMakerGroup6;
 
 public class TablesPopulated
 {
-    // Fills tables: locations, rooms, extra_service, search_criteria and critera_rooms
     public static async Task Populate()
     {
         await using var db = NpgsqlDataSource.Create(Database.Url);

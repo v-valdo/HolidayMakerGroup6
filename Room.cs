@@ -3,8 +3,6 @@
 namespace HolidayMakerGroup6;
 public class Room
 {
-
-	// exempel
 	public async Task ViewAll()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);

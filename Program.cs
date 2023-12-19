@@ -3,12 +3,10 @@ using Npgsql;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
 
-// Creates all tables for the database
 TableCreation table = new(db);
 await table.Create();
 
 
-// main menu
 bool endprogram = false;
 do
 {
@@ -68,7 +66,6 @@ async Task BookingMenu()
     do
     {
         Console.Clear();
-        // choice "view bookings"
         Console.WriteLine("|---------- Bookings ----------|\n" +
                       "|                              |\n" +
                       "| 1. Create new booking        |\n" +

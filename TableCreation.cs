@@ -89,7 +89,6 @@ public class TableCreation
             );
         ";
 
-        // Creates all the tables
         await _db.CreateCommand(qCustomers).ExecuteNonQueryAsync();
         await _db.CreateCommand(qLocations).ExecuteNonQueryAsync();
         await _db.CreateCommand(qRooms).ExecuteNonQueryAsync();
