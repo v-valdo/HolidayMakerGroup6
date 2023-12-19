@@ -78,12 +78,12 @@ public class Customer
 				return;
 			}
 
-			using var cmd = db.CreateCommand("INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES (@first_name, @last_name, @email, @telnumber, @date_of_birth)");
-			cmd.Parameters.AddWithValue("@first_name", firstName);
-			cmd.Parameters.AddWithValue("@last_name", surName);
-			cmd.Parameters.AddWithValue("@email", email);
-			cmd.Parameters.AddWithValue("@telnumber", phoneNumber);
-			cmd.Parameters.AddWithValue("@date_of_birth", DateTime.Parse(DoB));
+			using var cmd = db.CreateCommand("INSERT INTO customers (first_name, last_name, email, telnumber, date_of_birth) VALUES ($1, $2, $3, $4, $5)");
+			cmd.Parameters.AddWithValue(firstName);
+			cmd.Parameters.AddWithValue(surName);
+			cmd.Parameters.AddWithValue(email);
+			cmd.Parameters.AddWithValue(phoneNumber);
+			cmd.Parameters.AddWithValue(DateTime.Parse(DoB));
 
 			await cmd.ExecuteNonQueryAsync();
 
@@ -105,8 +105,8 @@ public class Customer
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
-		using var cmd = db.CreateCommand("select id from customers where email = @email");
-		cmd.Parameters.AddWithValue("@email", email);
+		using var cmd = db.CreateCommand("select id from customers where email = $1");
+		cmd.Parameters.AddWithValue(email);
 
 		var customerID = await cmd.ExecuteScalarAsync();
 		return Convert.ToInt32(customerID);
@@ -134,9 +134,9 @@ public class Customer
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 
-		using var cmd = db.CreateCommand("SELECT COUNT(*) FROM customers WHERE email = @email OR telnumber = @telnumber");
-		cmd.Parameters.AddWithValue("@email", email);
-		cmd.Parameters.AddWithValue("@telnumber", phoneNumber);
+		using var cmd = db.CreateCommand("SELECT COUNT(*) FROM customers WHERE email = $1 OR telnumber = $2");
+		cmd.Parameters.AddWithValue(email);
+		cmd.Parameters.AddWithValue(phoneNumber);
 
 		var count = await cmd.ExecuteScalarAsync();
 		return Convert.ToInt32(count) > 0;

@@ -3,12 +3,12 @@
 namespace HolidayMakerGroup6;
 public class Extras
 {
-    private readonly NpgsqlDataSource _db;
-    
-    public Extras(NpgsqlDataSource db)
-    {
-        _db = db;
-    }
+	private readonly NpgsqlDataSource _db;
+
+	public Extras(NpgsqlDataSource db)
+	{
+		_db = db;
+	}
 
     public async Task <string> ShowAllExtras()
     {
@@ -56,17 +56,17 @@ public class Extras
             await Console.Out.WriteAsync("Insert extras id: ");
             var extraserviceidinput = Console.ReadLine();
 
-            Console.Clear();
+			Console.Clear();
 
-            if (!int.TryParse(bookingidinput, out var parsedbookingid) || !int.TryParse(extraserviceidinput, out var parsedextraserviceid))
-            {
-                string answer = "Invalid input. Try again";
+			if (!int.TryParse(bookingidinput, out var parsedbookingid) || !int.TryParse(extraserviceidinput, out var parsedextraserviceid))
+			{
+				string answer = "Invalid input. Try again";
 
-                Console.ReadKey();
-                return answer;
-            }
+				Console.ReadKey();
+				return answer;
+			}
 
-            using var cmd = _db.CreateCommand($"INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ({parsedbookingid}, {parsedextraserviceid})");
+			using var cmd = _db.CreateCommand($"INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ({parsedbookingid}, {parsedextraserviceid})");
 
             await cmd.ExecuteNonQueryAsync();
             await _db.CreateCommand(qPriceUpdateExtraBooking).ExecuteNonQueryAsync();
