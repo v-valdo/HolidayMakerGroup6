@@ -84,49 +84,49 @@ async Task BookingMenu()
         Console.Write("\nTo choice menuoption, press key 0 - 7: ");
         ConsoleKeyInfo keyPressed = Console.ReadKey();
 
-        switch (keyPressed.Key)
-        {
-            default:
-                Console.WriteLine("\nNo such option");
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D1:
-                Console.Clear();
-                await booking.New();
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D2:
-                await booking.SelectEdit();
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D3:
-                await booking.List();
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D4:
-                await booking.Delete();
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D5:
-                await SearchPageMenu();
-                break;
-            case ConsoleKey.D6:
-                Console.Clear();
-                Console.WriteLine(await extras.Add());
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D7:
-                Console.Clear();
-                Console.WriteLine(await extras.ShowAll());
-                Console.ReadKey();
-                break;
-            case ConsoleKey.D0:
-                Console.Clear();
-                Console.WriteLine("\nReturing to main menu...");
-                await Task.Delay(2000);
-                returntomainmenu = true; return;
-        }
-    } while (!returntomainmenu);
+		switch (keyPressed.Key)
+		{
+			default:
+				Console.WriteLine("\nNo such option");
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D1:
+				Console.Clear();
+				await booking.New();
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D2:
+				await booking.SelectEdit();
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D3:
+				await booking.SelectDelete();
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D4:
+				await booking.List();
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D5:
+				await SearchPageMenu();
+				break;
+			case ConsoleKey.D6:
+				Console.Clear();
+				Console.WriteLine(await extras.Add());
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D7:
+				Console.Clear();
+				Console.WriteLine(await extras.ShowAll());
+				Console.ReadKey();
+				break;
+			case ConsoleKey.D0:
+				Console.Clear();
+				Console.WriteLine("\nReturing to main menu...");
+				await Task.Delay(2000);
+				returntomainmenu = true; return;
+		}
+	} while (!returntomainmenu);
 }
 
 async Task SearchPageMenu()
