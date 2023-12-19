@@ -1,4 +1,5 @@
 using Npgsql;
+using static System.Net.Mime.MediaTypeNames;
 namespace HolidayMakerGroup6;
 public class Customer
 {
@@ -12,9 +13,16 @@ public class Customer
 
 	public async Task Register()
 	{
+
 		await using var db = NpgsqlDataSource.Create(Database.Url);
 		Console.Clear();
-		Console.Write("Firstname: ");
+
+        string heading = "REGISTER CUSTOMER";
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine($"║           {heading}          ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        Console.Write("Firstname: ");
 		firstName = Console.ReadLine() ?? "Not Specified";
 		Console.Clear();
 
@@ -24,7 +32,11 @@ public class Customer
 			return;
 		}
 
-		Console.Write("Surname: ");
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine($"║           {heading}          ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        Console.Write("Surname: ");
 		surName = Console.ReadLine() ?? "Not Specified";
 		Console.Clear();
 
@@ -34,7 +46,11 @@ public class Customer
 			return;
 		}
 
-		Console.Write("Email: ");
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine($"║           {heading}          ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        Console.Write("Email: ");
 		email = Console.ReadLine() ?? "Not Specified";
 		Console.Clear();
 
@@ -44,7 +60,11 @@ public class Customer
 			return;
 		}
 
-		Console.Write("Phone number: ");
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine($"║           {heading}          ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        Console.Write("Phone number: ");
 		var phoneNumberInput = Console.ReadLine();
 
 		if (phoneNumberInput.Length != 10 || !int.TryParse(phoneNumberInput, out var parsedPhoneNumber))
@@ -57,7 +77,11 @@ public class Customer
 		phoneNumber = parsedPhoneNumber;
 		Console.Clear();
 
-		Console.WriteLine("Date of Birth (Like this ->[xxxx-xx-xx]");
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine($"║           {heading}          ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        Console.WriteLine("Date of Birth (Like this ->[xxxx-xx-xx]");
 		DoB = Console.ReadLine() ?? "DoB";
 		Console.Clear();
 
