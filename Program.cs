@@ -2,11 +2,6 @@ using HolidayMakerGroup6;
 using Npgsql;
 
 await using var db = NpgsqlDataSource.Create(Database.Url);
-
-Room room = new Room();
-await room.Criterias();
-Console.ReadLine();
-
 TableCreation table = new(db);
 await table.Create();
 
@@ -82,7 +77,7 @@ async Task BookingMenu()
 					  "|                              |\n" +
 					  "| 6. Add extras to booking     |\n" +
 					  "| 7. View extras               |\n" +
-					  "|                              |\n" +
+					  "| 8. View Criteria             |\n" +
 					  "|                              |\n" +
 					  "| 0. Return to main menu       |\n" +
 					  "|------------------------------|");
@@ -124,6 +119,11 @@ async Task BookingMenu()
 				Console.Clear();
 				Console.WriteLine(await extras.ShowAll());
 				Console.ReadKey();
+				break;
+			case ConsoleKey.D8:
+				Console.Clear();
+				Room room = new();
+				await room.Criterias();
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
