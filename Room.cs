@@ -8,6 +8,7 @@ public class Room
 		string result = string.Empty;
 
 		await using var db = NpgsqlDataSource.Create(Database.Url);
+
 		const string? query = @"select rooms.id, rooms.size, locations.name, rooms.price from rooms
 								join locations
 								on rooms.location_id = locations.id;";
