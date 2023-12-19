@@ -238,7 +238,7 @@ public class Booking
 
 		const string query = @"select id from bookings 
 							where room_id = $1 
-							AND start_date <= $2
+							AND start_date >= $2
 							AND end_date <= $3
 ";
 
@@ -505,7 +505,6 @@ public class Booking
 		{
 			Console.WriteLine($"Booking with ID {bookingNumber} not found.");
 		}
-
 	}
 
 	public async Task<int> AssignRoom(Booking booking)
