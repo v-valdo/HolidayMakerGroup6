@@ -11,15 +11,10 @@ public class SearchPage
         _db = db;
     }
 
-    // Room menu option 1
     public async Task<string> RoomsPriceASC()
     {
         string result = string.Empty;
-        const string qRoomsPriceSort = @"
-            SELECT *
-            FROM rooms
-            ORDER BY price ASC;
-        ";
+        const string qRoomsPriceSort = @"select * from rooms order by price asc;";
 
         var reader = await _db.CreateCommand(qRoomsPriceSort).ExecuteReaderAsync();
         while (await reader.ReadAsync())
@@ -44,15 +39,10 @@ public class SearchPage
         return result;
     }
 
-    // Room menu option 2
     public async Task<string> RoomsReviewsDESC()
     {
         string result = string.Empty;
-        const string qRoomsReviewsSort = @"
-            SELECT *
-            FROM rooms
-            ORDER BY reviews DESC;
-        ";
+        const string qRoomsReviewsSort = @"select * from rooms order by reviews desc;";
 
         var reader = await _db.CreateCommand(qRoomsReviewsSort).ExecuteReaderAsync();
         while (await reader.ReadAsync())
@@ -77,7 +67,6 @@ public class SearchPage
         return result;
     }
 
-    // Room menu option 4
     public async Task<string> DistanceToBeach()
     {
         string qDistanceBeach = string.Empty;
@@ -166,7 +155,6 @@ public class SearchPage
                     returnToMenu = true; break;
             }
 
-            // Only prints out rooms if they pick an option
             if (validanswer == true)
             {
                 Console.Clear();
@@ -294,7 +282,6 @@ public class SearchPage
                     returnToMenu = true; break;
             }
 
-            // Only prints out rooms if they pick an option
             if (validanswer == true)
             {
                 Console.Clear();
