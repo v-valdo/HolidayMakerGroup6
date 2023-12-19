@@ -193,7 +193,7 @@ public class Booking
 				Console.Write("Enter end date [YYYY-MM-DD]: ");
 				if (DateTime.TryParse(Console.ReadLine(), out DateTime endDate))
 				{
-					if (await CheckAvailable(roomId, startDate, endDate))
+					if (await CheckAvailable(roomId, startDate, endDate) && startDate >= new DateTime(2022, 6, 1) && endDate <= new DateTime(2022, 7, 31))
 					{
 						Console.WriteLine($"Room {roomId} is available between {startDate.ToShortDateString()} and {endDate.ToShortDateString()}!");
 						Console.ReadKey();
@@ -201,7 +201,7 @@ public class Booking
 					}
 					else
 					{
-						Console.WriteLine("Room is not available for the selected dates. Press any key to try again.");
+						Console.WriteLine("Room is not available for the selected dates. Press any key to try again.\nPlease note rooms are only available between 2022-06-01 and 2022-07-31");
 					}
 				}
 				else
@@ -227,7 +227,7 @@ public class Booking
 		const string query = @"select id from bookings 
 							where room_id = @roomId 
 							AND start_date <= @endDate 
-								AND end_date <= @startDate
+							AND end_date <= @startDate
 ";
 
 		var cmd = db.CreateCommand(query);
@@ -251,86 +251,86 @@ public class Booking
 		}
 		return true;
 	}
-    public async Task SelectDelete()
-{
-    await List();
-    Console.WriteLine("---------------------------------------------------------------------------------------------");
-    Console.Write("Choose a BookingID to delete: ");
-    if (int.TryParse(Console.ReadLine(), out int selectedBookingNumber))
-    {
-        Console.Clear();
-        await Delete(selectedBookingNumber);
-    }
-    else
-    {
-        Console.WriteLine("Invalid input.");
-        Console.Clear();
-    }
-}
-public async Task Delete(int bookingNumber)
-{
-    await using var connection = NpgsqlDataSource.Create(Database.Url);
-    await connection.OpenConnectionAsync();
-
-    using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS CustomerName, * FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id WHERE b.id = @BookingID;");
-    cmd.Parameters.AddWithValue("BookingID", bookingNumber);
-
-    using var reader = await cmd.ExecuteReaderAsync();
-
-    if (await reader.ReadAsync())
-    {
-        string customerName = reader.GetString(reader.GetOrdinal("CustomerName"));
-        int customerId = reader.GetInt32(reader.GetOrdinal("customer_id"));
-        DateTime startDate = reader.GetDateTime(reader.GetOrdinal("start_date"));
-        DateTime endDate = reader.GetDateTime(reader.GetOrdinal("end_date"));
-        int roomId = reader.GetInt32(reader.GetOrdinal("room_id"));
-        int numberOfPeople = reader.GetInt32(reader.GetOrdinal("number_of_people"));
-        int price = reader.GetInt32(reader.GetOrdinal("price"));
-
-        Console.WriteLine("Customer: " + customerName);
-        Console.WriteLine("------------------------------");
-        Console.WriteLine($"Booking ID: " + bookingNumber);
-        Console.WriteLine("Customer ID: " + customerId);
-        Console.WriteLine("Start Date: " + startDate.ToShortDateString());
-        Console.WriteLine("End Date: " + endDate.ToShortDateString());
-        Console.WriteLine("Room ID: " + roomId);
-        Console.WriteLine("Number of People: " + numberOfPeople);
-        Console.WriteLine("Price: " + price);
-
-
-        Console.WriteLine("------------------------------");
-        Console.WriteLine("Are you sure you wan to delete this booking? [y/n]");
-		string deleteInput = Console.ReadLine().ToLower();
-
-		if (deleteInput == "y")
-		{
-
-            using var deleteCmd = connection.CreateCommand("DELETE FROM bookings WHERE id = @BookingID;");
-            deleteCmd.Parameters.AddWithValue("BookingID", bookingNumber);
-            await deleteCmd.ExecuteNonQueryAsync();
-
-            Console.Clear();
-            Console.WriteLine("Booking with ID " + bookingNumber + " has been successfully deleted. Returning to Booking Menu...");
-
-        }
-        else if (deleteInput == "n")
+	public async Task SelectDelete()
+	{
+		await List();
+		Console.WriteLine("---------------------------------------------------------------------------------------------");
+		Console.Write("Choose a BookingID to delete: ");
+		if (int.TryParse(Console.ReadLine(), out int selectedBookingNumber))
 		{
 			Console.Clear();
-			Console.WriteLine("Nothing has has been removed. Returning to Booking Menu...");
-			return;
+			await Delete(selectedBookingNumber);
 		}
 		else
 		{
+			Console.WriteLine("Invalid input.");
 			Console.Clear();
-            Console.WriteLine("Invalid input, answer [y/n]. Returning to Booking Menu...");
-        }	
-        
-    }
-    else
-    {
-        Console.WriteLine($"Booking with ID {bookingNumber} not found.");
-    }
-}
+		}
+	}
+	public async Task Delete(int bookingNumber)
+	{
+		await using var connection = NpgsqlDataSource.Create(Database.Url);
+		await connection.OpenConnectionAsync();
+
+		using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS CustomerName, * FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id WHERE b.id = @BookingID;");
+		cmd.Parameters.AddWithValue("BookingID", bookingNumber);
+
+		using var reader = await cmd.ExecuteReaderAsync();
+
+		if (await reader.ReadAsync())
+		{
+			string customerName = reader.GetString(reader.GetOrdinal("CustomerName"));
+			int customerId = reader.GetInt32(reader.GetOrdinal("customer_id"));
+			DateTime startDate = reader.GetDateTime(reader.GetOrdinal("start_date"));
+			DateTime endDate = reader.GetDateTime(reader.GetOrdinal("end_date"));
+			int roomId = reader.GetInt32(reader.GetOrdinal("room_id"));
+			int numberOfPeople = reader.GetInt32(reader.GetOrdinal("number_of_people"));
+			int price = reader.GetInt32(reader.GetOrdinal("price"));
+
+			Console.WriteLine("Customer: " + customerName);
+			Console.WriteLine("------------------------------");
+			Console.WriteLine($"Booking ID: " + bookingNumber);
+			Console.WriteLine("Customer ID: " + customerId);
+			Console.WriteLine("Start Date: " + startDate.ToShortDateString());
+			Console.WriteLine("End Date: " + endDate.ToShortDateString());
+			Console.WriteLine("Room ID: " + roomId);
+			Console.WriteLine("Number of People: " + numberOfPeople);
+			Console.WriteLine("Price: " + price);
+
+
+			Console.WriteLine("------------------------------");
+			Console.WriteLine("Are you sure you wan to delete this booking? [y/n]");
+			string deleteInput = Console.ReadLine().ToLower();
+
+			if (deleteInput == "y")
+			{
+
+				using var deleteCmd = connection.CreateCommand("DELETE FROM bookings WHERE id = @BookingID;");
+				deleteCmd.Parameters.AddWithValue("BookingID", bookingNumber);
+				await deleteCmd.ExecuteNonQueryAsync();
+
+				Console.Clear();
+				Console.WriteLine("Booking with ID " + bookingNumber + " has been successfully deleted. Returning to Booking Menu...");
+
+			}
+			else if (deleteInput == "n")
+			{
+				Console.Clear();
+				Console.WriteLine("Nothing has has been removed. Returning to Booking Menu...");
+				return;
+			}
+			else
+			{
+				Console.Clear();
+				Console.WriteLine("Invalid input, answer [y/n]. Returning to Booking Menu...");
+			}
+
+		}
+		else
+		{
+			Console.WriteLine($"Booking with ID {bookingNumber} not found.");
+		}
+	}
 	public async Task AddExtras()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
