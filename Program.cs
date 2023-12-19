@@ -117,7 +117,7 @@ async Task BookingMenu()
 				break;
 			case ConsoleKey.D7:
 				Console.Clear();
-				Console.WriteLine(await extras.ShowAll());
+				Console.WriteLine(await extras.ShowAllExtras());
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D0:

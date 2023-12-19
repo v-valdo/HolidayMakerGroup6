@@ -10,7 +10,7 @@ public class Extras
         _db = db;
     }
 
-    public async Task <string> ShowAll()
+    public async Task <string> ShowAllExtras()
     {
         string result = string.Empty;
         const string query = @"select id, name, price from extra_service;";
@@ -40,10 +40,12 @@ public class Extras
         try
         {
             Console.Clear();
-            await Console.Out.WriteAsync(await ShowAll());
-            await Console.Out.WriteLineAsync("---------------------------------------------------");
-            await Console.Out.WriteAsync("Insert booking id: ");
+            Booking booking = new();
+            await booking.List();
+            await Console.Out.WriteAsync("\nInsert booking id: ");
             var bookingidinput = Console.ReadLine();
+            await Console.Out.WriteAsync(await ShowAllExtras());
+            await Console.Out.WriteLineAsync("---------------------------------------------------");
             await Console.Out.WriteAsync("Insert extras id: ");
             var extraserviceidinput = Console.ReadLine();
 
