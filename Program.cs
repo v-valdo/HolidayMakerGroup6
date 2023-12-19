@@ -122,7 +122,7 @@ async Task BookingMenu()
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
-				Console.WriteLine("\nReturing to main menu...");
+				Console.WriteLine("\nReturning to main menu...");
 				await Task.Delay(2000);
 				returntomainmenu = true; return;
 		}
@@ -189,7 +189,7 @@ async Task SearchPageMenu()
                 break;
             case ConsoleKey.D0:
                 Console.Clear();
-                Console.WriteLine("\nReturing to booking menu...");
+                Console.WriteLine("\nReturning to booking menu...");
                 await Task.Delay(2000);
                 returntomainmenu = true; return;
         }
