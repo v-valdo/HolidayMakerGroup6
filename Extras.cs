@@ -36,7 +36,14 @@ public class Extras
 
     public async Task<string> Add()
     {
-
+        const string qPriceUpdateExtraBooking = @" 
+            UPDATE extra_service_and_bookings eb
+            SET price = (select e.price * EXTRACT(days from AGE(b.end_date, b.start_date)) +1
+					            from rooms r, extra_service e, bookings b
+					            WHERE b.room_id = r.id AND eb.booking_id = b.id AND e.id = eb.extra_service_id)
+            FROM rooms r, extra_service e, bookings b
+            WHERE b.room_id = r.id AND eb.booking_id = b.id AND e.id = eb.extra_service_id;
+        ";
         try
         {
             Console.Clear();
@@ -62,6 +69,7 @@ public class Extras
             using var cmd = _db.CreateCommand($"INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ({parsedbookingid}, {parsedextraserviceid})");
 
             await cmd.ExecuteNonQueryAsync();
+            await _db.CreateCommand(qPriceUpdateExtraBooking).ExecuteNonQueryAsync();
             return "Record added successfully!";
         }
         catch (Exception ex)
