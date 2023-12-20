@@ -266,7 +266,6 @@ public class Booking
 	public async Task SelectDelete()
 	{
 		await List();
-		Console.WriteLine("---------------------------------------------------------------------------------------------");
 		Console.Write("Choose a BookingID to delete: ");
 		if (int.TryParse(Console.ReadLine(), out int selectedBookingNumber))
 		{
