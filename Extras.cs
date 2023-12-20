@@ -1,6 +1,6 @@
 using Npgsql;
-
 namespace HolidayMakerGroup6;
+
 public class Extras
 {
 	private readonly NpgsqlDataSource _db;

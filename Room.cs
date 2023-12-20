@@ -1,6 +1,6 @@
 ﻿using Npgsql;
-
 namespace HolidayMakerGroup6;
+
 public class Room
 {
 	public async Task Criterias()

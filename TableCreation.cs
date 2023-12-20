@@ -1,5 +1,6 @@
 using Npgsql;
 namespace HolidayMakerGroup6;
+
 public class TableCreation
 {
 	private readonly NpgsqlDataSource _db;

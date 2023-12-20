@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-
 namespace HolidayMakerGroup6;
 
 public class EditBookings

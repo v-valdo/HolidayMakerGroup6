@@ -1,6 +1,6 @@
 using Npgsql;
-using static System.Net.Mime.MediaTypeNames;
 namespace HolidayMakerGroup6;
+
 public class Customer
 {
 	public int customerID;
@@ -124,7 +124,6 @@ public class Customer
 		}
 	}
 
-	// Hämtar customer ID where email = email
 	public async Task<int> GetID(string email)
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
@@ -137,7 +136,6 @@ public class Customer
 
 	}
 
-	// fungerande lista från databasen
 	public async Task ShowAll()
 	{
 		await using var db = NpgsqlDataSource.Create(Database.Url);
