@@ -11,8 +11,6 @@ public class TableCreation
 
 	public async Task Create()
 	{
-		await using var _db = NpgsqlDataSource.Create(Database.Url);
-
 		const string qCustomers = @"  
             CREATE TABLE IF NOT EXISTS customers(
                 id SERIAL NOT NULL PRIMARY KEY,
