@@ -97,28 +97,4 @@ public class TableCreation
 		await _db.CreateCommand(qExtraService).ExecuteNonQueryAsync();
 		await _db.CreateCommand(qExtraServiceBookings).ExecuteNonQueryAsync();
 	}
-
-	public async Task Sequence()
-	{
-		const string qAlterSequences = @"
-            ALTER SEQUENCE 
-                customers_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                locations_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                rooms_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                criteria_rooms_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                search_criteria_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                bookings_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                extra_service_id_seq RESTART WITH 1;
-            ALTER SEQUENCE 
-                extra_service_and_bookings_id_seq RESTART WITH 1;        
-        ";
-
-		await _db.CreateCommand(qAlterSequences).ExecuteNonQueryAsync();
-	}
 }
