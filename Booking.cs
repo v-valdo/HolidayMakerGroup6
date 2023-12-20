@@ -151,7 +151,7 @@ public class Booking
 
 			Console.WriteLine("Please review the booking details and type \"CONFIRM\" to finalize booking\nEnter \"CANCEL\" to cancel.");
 			string? input = string.Empty;
-			input = Console.ReadLine();
+			input = Console.ReadLine()?.ToUpper();
 
 			if (input == "CANCEL")
 			{
