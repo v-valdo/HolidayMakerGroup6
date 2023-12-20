@@ -67,7 +67,7 @@ public class Customer
         Console.Write("Phone number: ");
 		var phoneNumberInput = Console.ReadLine();
 
-		if (phoneNumberInput.Length != 10 || !int.TryParse(phoneNumberInput, out var parsedPhoneNumber))
+		if (phoneNumberInput?.Length != 10 || !int.TryParse(phoneNumberInput, out var parsedPhoneNumber))
 		{
 			Console.WriteLine("Invalid phone number. Please enter a 10-digit numeric phone number. Press Enter to continue...");
 			Console.ReadKey();

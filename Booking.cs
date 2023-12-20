@@ -58,7 +58,7 @@ public class Booking
 
 					while (true)
 					{
-						if (input.ToLower() == "y")
+						if (input?.ToLower() == "y")
 						{
 							Console.Clear();
 
@@ -78,7 +78,7 @@ public class Booking
 								break;
 							}
 						}
-						else if (input.ToLower() == "n")
+						else if (input?.ToLower() == "n")
 						{
 							Console.Clear();
 							Console.WriteLine("Booking Cancelled");
@@ -240,7 +240,7 @@ public class Booking
 							where room_id = $1 
 							AND start_date >= $2
 							AND end_date <= $3
-";
+		";
 
 		var cmd = db.CreateCommand(query);
 
@@ -311,7 +311,7 @@ public class Booking
 
 			Console.WriteLine("------------------------------");
 			Console.WriteLine("Are you sure you wan to delete this booking? [y/n]");
-			string deleteInput = Console.ReadLine().ToLower();
+			string? deleteInput = Console.ReadLine()?.ToLower();
 
 			if (deleteInput == "y")
 			{
@@ -538,7 +538,7 @@ public class Booking
 					string? input = Console.ReadLine();
 					while (true)
 					{
-						if (input.ToLower() == "y")
+						if (input?.ToLower() == "y")
 						{
 							Console.Clear();
 							return selectedRoom;
