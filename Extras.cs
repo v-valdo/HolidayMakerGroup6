@@ -66,7 +66,10 @@ public class Extras
 				return answer;
 			}
 
-			using var cmd = _db.CreateCommand($"INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ({parsedbookingid}, {parsedextraserviceid})");
+			using var cmd = _db.CreateCommand("INSERT INTO extra_service_and_bookings (booking_id, extra_service_id) VALUES ($1, $2)");
+
+            cmd.Parameters.AddWithValue(parsedbookingid);
+            cmd.Parameters.AddWithValue(parsedextraserviceid);
 
             await cmd.ExecuteNonQueryAsync();
             await _db.CreateCommand(qPriceUpdateExtraBooking).ExecuteNonQueryAsync();
@@ -81,7 +84,7 @@ public class Extras
     public async Task<string> ViewBookingExtras()
     {
         string result = string.Empty;
-        const string query = @"select eb.booking_id, string_agg(e.name, ', ')
+        const string qBookingExtras = @"select eb.booking_id, string_agg(e.name, ', ')
             from extra_service_and_bookings eb 
             join extra_service e on eb.extra_service_id = e.id
             group by eb.booking_id
@@ -90,7 +93,7 @@ public class Extras
 
         await Console.Out.WriteLineAsync("Booking ID    || Service             \n" +
                                          "--------------||---------------------");
-        var reader = await _db.CreateCommand(query).ExecuteReaderAsync();
+        var reader = await _db.CreateCommand(qBookingExtras).ExecuteReaderAsync();
         while (await reader.ReadAsync())
         {
             string id = reader.GetInt32(0).ToString();
@@ -98,7 +101,7 @@ public class Extras
 
             result += " " + reader.GetInt32(0) + new string(' ', 13 - id.Length);
             result += "||";
-            result += " " + reader.GetString(1) + new string(' ',100 - service.Length);
+            result += " " + reader.GetString(1) + new string(' ', 80 - service.Length);
             result += "\n";
         }
         return result;
