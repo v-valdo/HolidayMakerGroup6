@@ -27,7 +27,7 @@ public class TableCreation
 		const string qLocations = @"
             CREATE TABLE IF NOT EXISTS locations (
                 id SERIAL NOT NULL PRIMARY KEY,
-                name TEXT NOT NULL,
+                name TEXT NOT NULL UNIQUE,
                 distance_to_beach INTEGER NOT NULL,
                 distance_to_city INTEGER NOT NULL
             );
@@ -46,7 +46,7 @@ public class TableCreation
 		const string qSearchCriteria = @"
             CREATE TABLE IF NOT EXISTS search_criteria(
                 id SERIAL NOT NULL PRIMARY KEY,
-                name TEXT NOT NULL
+                name TEXT NOT NULL UNIQUE
             );
         ";
 
@@ -54,7 +54,8 @@ public class TableCreation
             CREATE TABLE IF NOT EXISTS criteria_rooms(
                 id SERIAL NOT NULL PRIMARY KEY,
                 criteria_id INTEGER NOT NULL REFERENCES search_criteria (id),
-                room_id INTEGER NOT NULL REFERENCES rooms (id)
+                room_id INTEGER NOT NULL REFERENCES rooms (id),
+                unique (criteria_id, room_id)
             );
         ";
 
@@ -73,10 +74,11 @@ public class TableCreation
 		const string qExtraService = @"
             CREATE TABLE IF NOT EXISTS extra_service(
                 id SERIAL NOT NULL PRIMARY KEY,
-                name TEXT NOT NULL,
+                name TEXT NOT NULL UNIQUE,
                 price DECIMAL(8, 2) NOT NULL
             );
         ";
+
 		const string qExtraServiceBookings = @"
             CREATE TABLE IF NOT EXISTS extra_service_and_bookings(
                 id SERIAL NOT NULL PRIMARY KEY,
