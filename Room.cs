@@ -37,7 +37,6 @@ public class Room
 
 		while (await reader.ReadAsync())
 		{
-			// result += $"{reader.GetInt32(0)}";
 			Console.WriteLine($"{reader.GetInt32(0),-10} | {reader.GetInt32(1),-15} | {reader.GetString(2),-15} | {reader.GetInt32(3),-15:C}");
 		}
 	}
