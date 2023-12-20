@@ -69,40 +69,9 @@ public class SearchPage
 
 	public async Task<string> DistanceToBeach()
 	{
-		string qDistanceBeach = string.Empty;
 		string result = string.Empty;
 		string distanceHeader = string.Empty;
-
-		const string qfiftyMToBeach = @"
-                    select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_beach <= 50
-                    order by l.distance_to_beach ASC;";
-		const string qhundredMToBeach = @"
-                    select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_beach <= 100
-                    order by l.distance_to_beach ASC;";
-		const string qhundredfiftyMToBeach = @"
-                    select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_beach <= 150
-                    order by l.distance_to_beach ASC;";
-		const string qtwohundredMToBeach = @"
-                    select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_beach <= 200
-                    order by l.distance_to_beach ASC;";
-		const string qtwohundredfiftyMToBeach = @"
-                    select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_beach <= 200
-                    order by l.distance_to_beach ASC;";
+        string distance = string.Empty;
 
 		bool validanswer = true;
 		bool returnToMenu = false;
@@ -129,23 +98,23 @@ public class SearchPage
 					Console.ReadKey();
 					validanswer = false; break;
 				case ConsoleKey.D1:
-					qDistanceBeach = qfiftyMToBeach;
+					distance = "50";
 					distanceHeader = "50 meters";
 					break;
 				case ConsoleKey.D2:
-					qDistanceBeach = qhundredMToBeach;
+					distance = "100";
 					distanceHeader = "50 - 100 meters";
 					break;
 				case ConsoleKey.D3:
-					qDistanceBeach = qhundredfiftyMToBeach;
+					distance = "150";
 					distanceHeader = "50 - 150 meters";
 					break;
 				case ConsoleKey.D4:
-					qDistanceBeach = qtwohundredMToBeach;
+					distance = "200";
 					distanceHeader = "50 - 200 meters";
 					break;
 				case ConsoleKey.D5:
-					qDistanceBeach = qtwohundredfiftyMToBeach;
+					distance = "250";
 					distanceHeader = "50 - 200 meters";
 					break;
 				case ConsoleKey.D0:
@@ -157,10 +126,18 @@ public class SearchPage
 
 			if (validanswer == true)
 			{
-				Console.Clear();
+                string qDistanceBeach = @$"
+                    select r.id room_id, l.distance_to_beach, r.size room_size, l.id, r.price, r.reviews
+                    from rooms r
+                    join locations l on r.location_id = l.id
+                    where l.distance_to_beach <= {distance}
+                    order by l.distance_to_beach ASC;"
+				;
+
+                Console.Clear();
 				await Console.Out.WriteLineAsync("Distance to beach: " + distanceHeader + "\n\n" +
-												 "Room Number || Distance to Beach || Room Size   || Location ID || Room Price  || Reviews\n" +
-												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+												 "Room Number || Distance to Beach || Room Size   || Location ID || Room Price     || Reviews\n" +
+												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
 				using var reader = await _db.CreateCommand(qDistanceBeach).ExecuteReaderAsync();
 				while (await reader.ReadAsync())
 				{
@@ -194,40 +171,9 @@ public class SearchPage
 
 	public async Task<string> DistanceToCity()
 	{
-		string qDistanceCity = string.Empty;
 		string result = string.Empty;
 		string distanceHeader = string.Empty;
-
-		const string qfiftyMToCity = @"
-                    select r.id room_id, l.distance_to_city, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_city <= 50
-                    order by l.distance_to_city ASC;";
-		const string qhundredMToCity = @"
-                    select r.id room_id, l.distance_to_city, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_city <= 100
-                    order by l.distance_to_city ASC;";
-		const string qhundredfiftyMToCity = @"
-                    select r.id room_id, l.distance_to_city, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_city <= 150
-                    order by l.distance_to_city ASC;";
-		const string qtwohundredMToCity = @"
-                    select r.id room_id, l.distance_to_city, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_city <= 200
-                    order by l.distance_to_city ASC;";
-		const string qtwohundredfiftyMToCity = @"
-                    select r.id room_id, l.distance_to_city, r.size room_size, l.id, r.price, r.reviews
-                    from rooms r
-                    join locations l on r.location_id = l.id
-                    where l.distance_to_city <= 200
-                    order by l.distance_to_city ASC;";
+		string distance = string.Empty;
 
 		bool validanswer = true;
 		bool returnToMenu = false;
@@ -254,23 +200,23 @@ public class SearchPage
 					Console.ReadKey();
 					validanswer = false; break;
 				case ConsoleKey.D1:
-					qDistanceCity = qfiftyMToCity;
+					distance = "50";
 					distanceHeader = "50 meters";
 					break;
 				case ConsoleKey.D2:
-					qDistanceCity = qhundredMToCity;
+					distance = "100";
 					distanceHeader = "50 - 100 meters";
 					break;
 				case ConsoleKey.D3:
-					qDistanceCity = qhundredfiftyMToCity;
+					distance = "150";
 					distanceHeader = "50 - 150 meters";
 					break;
 				case ConsoleKey.D4:
-					qDistanceCity = qtwohundredMToCity;
+					distance = "200";
 					distanceHeader = "50 - 200 meters";
 					break;
 				case ConsoleKey.D5:
-					qDistanceCity = qtwohundredfiftyMToCity;
+					distance = "250";
 					distanceHeader = "50 - 200 meters";
 					break;
 				case ConsoleKey.D0:
@@ -282,7 +228,15 @@ public class SearchPage
 
 			if (validanswer == true)
 			{
-				Console.Clear();
+                string qDistanceCity = @$"
+                    select r.id room_id, l.distance_to_city, r.size room_size, l.id, r.price, r.reviews
+                    from rooms r
+                    join locations l on r.location_id = l.id
+                    where l.distance_to_city <= {distance}
+                    order by l.distance_to_city ASC;"
+				;
+
+                Console.Clear();
 				await Console.Out.WriteLineAsync("Distance to city: " + distanceHeader + "\n\n" +
 												 "Room Number || Distance to City  || Room Size   || Location ID || Room Price     || Reviews\n" +
 												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
