@@ -31,7 +31,7 @@ public class SearchPage
 			result += "||";
 			result += " " + reader.GetInt32(2) + new string(' ', 12 - locationID.Length);
 			result += "||";
-			result += " " + reader.GetDecimal(3) + new string(' ', 12 - price.Length);
+			result += " " + reader.GetDecimal(3) + " kr" + new string(' ', 12 - price.Length);
 			result += "||";
 			result += " " + reader.GetDecimal(4) + new string(' ', 12 - reviews.Length);
 			result += "\n";
@@ -59,7 +59,7 @@ public class SearchPage
 			result += "||";
 			result += " " + reader.GetInt32(2) + new string(' ', 12 - locationID.Length);
 			result += "||";
-			result += " " + reader.GetDecimal(3) + new string(' ', 12 - price.Length);
+			result += " " + reader.GetDecimal(3) + " kr" + new string(' ', 12 - price.Length);
 			result += "||";
 			result += " " + reader.GetDecimal(4) + new string(' ', 12 - reviews.Length);
 			result += "\n";
@@ -179,7 +179,7 @@ public class SearchPage
 					result += "||";
 					result += " " + reader.GetInt32(3) + new string(' ', 12 - locationID.Length);
 					result += "||";
-					result += " " + reader.GetDecimal(4) + new string(' ', 12 - price.Length);
+					result += " " + reader.GetDecimal(4) + " kr"+ new string(' ', 12 - price.Length);
 					result += "||";
 					result += " " + reader.GetDecimal(5) + new string(' ', 12 - reviews.Length);
 					result += "\n";
@@ -284,8 +284,8 @@ public class SearchPage
 			{
 				Console.Clear();
 				await Console.Out.WriteLineAsync("Distance to city: " + distanceHeader + "\n\n" +
-												 "Room Number || Distance to City  || Room Size   || Location ID || Room Price  || Reviews\n" +
-												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+												 "Room Number || Distance to City  || Room Size   || Location ID || Room Price     || Reviews\n" +
+												 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
 				using var reader = await _db.CreateCommand(qDistanceCity).ExecuteReaderAsync();
 				while (await reader.ReadAsync())
 				{
@@ -304,7 +304,7 @@ public class SearchPage
 					result += "||";
 					result += " " + reader.GetInt32(3) + new string(' ', 12 - locationID.Length);
 					result += "||";
-					result += " " + reader.GetDecimal(4) + new string(' ', 12 - price.Length);
+					result += " " + reader.GetDecimal(4) + " kr" + new string(' ', 12 - price.Length);
 					result += "||";
 					result += " " + reader.GetDecimal(5) + new string(' ', 12 - reviews.Length);
 					result += "\n";

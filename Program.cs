@@ -168,34 +168,34 @@ async Task SearchPageMenu()
 			case ConsoleKey.D1:
 				Console.Clear();
 				Console.WriteLine("Rooms sorted by: Price in ascending order\n" +
-								  " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" +
-								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								  " Room Number || Room Size   || Location ID || Room Price     || Reviews\n" +
+								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								  await sort.RoomsPriceASC() +
-								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								  "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D2:
 				Console.Clear();
 				Console.WriteLine("Rooms sorted by: Reviews in descending order\n\n" +
-								 " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								 " Room Number || Room Size   || Location ID || Room Price     || Reviews\n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								 await sort.RoomsReviewsDESC() +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								 "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D3:
 				Console.Clear();
 				Console.WriteLine(await sort.DistanceToCity() +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								 "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D4:
 				Console.Clear();
 				Console.WriteLine(await sort.DistanceToBeach() +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
 								 "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
