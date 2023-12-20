@@ -15,7 +15,8 @@ public class Extras
         string result = string.Empty;
         const string query = @"select id, name, price from extra_service;";
 
-        await Console.Out.WriteLineAsync("ID     || Service             || Price               \n" +
+        await Console.Out.WriteLineAsync("---------------------------------------------------\n" +
+                                         "ID     || Service             || Price               \n" +
                                          "-------||---------------------||-------------------");
         var reader = await _db.CreateCommand(query).ExecuteReaderAsync();
         while (await reader.ReadAsync())

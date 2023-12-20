@@ -82,7 +82,7 @@ async Task BookingMenu()
 					  "|                              |\n" +
 					  "| 0. Return to main menu       |\n" +
 					  "|------------------------------|");
-		Console.Write("\nTo choice menuoption, press key 0 - 7: ");
+		Console.Write("\nTo choice menuoption, press key 0 - 9: ");
 		ConsoleKeyInfo keyPressed = Console.ReadKey();
 
 		switch (keyPressed.Key)
@@ -116,17 +116,17 @@ async Task BookingMenu()
             case ConsoleKey.D6:
 				await SearchPageMenu();
 				break;
-			case ConsoleKey.D7:
+			case ConsoleKey.D8:
 				Console.Clear();
 				Console.WriteLine(await extras.Add());
 				Console.ReadKey();
 				break;
-			case ConsoleKey.D8:
+			case ConsoleKey.D9:
 				Console.Clear();
 				Console.WriteLine(await extras.ShowAllExtras());
 				Console.ReadKey();
 				break;
-			case ConsoleKey.D9:
+			case ConsoleKey.D7:
 				Console.Clear();
 				Room room = new();
 				await room.Criterias();
