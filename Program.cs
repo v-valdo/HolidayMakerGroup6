@@ -16,11 +16,10 @@ do
 						"| 1. Register new customer     |\n" +
 						"| 2. Bookings                  |\n" +
 						"| 3. Fill tables               |\n" +
-						"| 4. Restart sequence count    |\n" +
 						"|                              |\n" +
 						"| 0. Exit program              |\n" +
 						"|------------------------------|\n");
-	Console.Write("\nTo choice menuoption, press key 0 - 4:  ");
+	Console.Write("\nTo choice menuoption, press key 0 - 3:  ");
 	ConsoleKeyInfo keyPressed = Console.ReadKey();
 
 	switch (keyPressed.Key)
@@ -41,12 +40,6 @@ do
 			await TablesPopulated.Populate();
 			Console.Clear();
 			Console.WriteLine("Tables populated!\nReturning to main menu in 3 seconds...");
-			await Task.Delay(3000);
-			break;
-		case ConsoleKey.D4:
-			await table.Sequence();
-			Console.Clear();
-			Console.WriteLine("Sequence for all tables restarted at 1!\nReturning to main menu in 3 seconds...");
 			await Task.Delay(3000);
 			break;
 		case ConsoleKey.D0:
@@ -72,16 +65,17 @@ async Task BookingMenu()
 					  "| 2. Edit booking              |\n" +
 					  "| 3. Delete booking            |\n" +
 					  "| 4. View bookings             |\n" +
-					  "|                              |\n" +
-					  "| 5. Rooms                     |\n" +
-					  "|                              |\n" +
-					  "| 6. Add extras to booking     |\n" +
-					  "| 7. View extras               |\n" +
-					  "| 8. View Criteria             |\n" +
+                      "| 5. View booking extras       |\n" +
+                      "|                              |\n" +
+					  "| 6. Rooms                     |\n" +
+                      "| 7. View criteria             |\n" +
+                      "|                              |\n" +
+                      "| 8. Add extras to booking     |\n" +
+					  "| 9. View extras               |\n" +
 					  "|                              |\n" +
 					  "| 0. Return to main menu       |\n" +
 					  "|------------------------------|");
-		Console.Write("\nTo choice menuoption, press key 0 - 7: ");
+		Console.Write("\nTo choice menuoption, press key 0 - 9: ");
 		ConsoleKeyInfo keyPressed = Console.ReadKey();
 
 		switch (keyPressed.Key)
@@ -108,19 +102,24 @@ async Task BookingMenu()
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D5:
+                Console.Clear();
+                Console.WriteLine(await extras.ViewBookingExtras());
+                Console.ReadKey();
+                break;
+            case ConsoleKey.D6:
 				await SearchPageMenu();
 				break;
-			case ConsoleKey.D6:
+			case ConsoleKey.D8:
 				Console.Clear();
 				Console.WriteLine(await extras.Add());
 				Console.ReadKey();
 				break;
-			case ConsoleKey.D7:
+			case ConsoleKey.D9:
 				Console.Clear();
-				Console.WriteLine(await extras.ShowAll());
+				Console.WriteLine(await extras.ShowAllExtras());
 				Console.ReadKey();
 				break;
-			case ConsoleKey.D8:
+			case ConsoleKey.D7:
 				Console.Clear();
 				Room room = new();
 				await room.Criterias();
@@ -128,7 +127,7 @@ async Task BookingMenu()
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
-				Console.WriteLine("\nReturing to main menu...");
+				Console.WriteLine("\nReturning to main menu in 2 seconds...");
 				await Task.Delay(2000);
 				returntomainmenu = true; return;
 		}
@@ -162,40 +161,40 @@ async Task SearchPageMenu()
 			case ConsoleKey.D1:
 				Console.Clear();
 				Console.WriteLine("Rooms sorted by: Price in ascending order\n" +
-								  " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" +
-								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								  " Room Number || Room Size   || Location ID || Room Price     || Reviews\n" +
+								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								  await sort.RoomsPriceASC() +
-								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								  "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D2:
 				Console.Clear();
 				Console.WriteLine("Rooms sorted by: Reviews in descending order\n\n" +
-								 " Room Number || Room Size   || Location ID || Room Price  || Reviews\n" +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								 " Room Number || Room Size   || Location ID || Room Price     || Reviews\n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								 await sort.RoomsReviewsDESC() +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								 "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D3:
 				Console.Clear();
 				Console.WriteLine(await sort.DistanceToCity() +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n" +
 								 "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D4:
 				Console.Clear();
 				Console.WriteLine(await sort.DistanceToBeach() +
-								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
+								 "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n" +
 								 "\nPress any key to return to booking menu!");
 				Console.ReadKey();
 				break;
 			case ConsoleKey.D0:
 				Console.Clear();
-				Console.WriteLine("\nReturing to booking menu...");
+				Console.WriteLine("\nReturing to booking menu in two seconds...");
 				await Task.Delay(2000);
 				returntomainmenu = true; return;
 		}

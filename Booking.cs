@@ -1,6 +1,6 @@
-
 using Npgsql;
 namespace HolidayMakerGroup6;
+
 public class Booking
 {
 	private int customerId;
@@ -25,12 +25,18 @@ public class Booking
 
 			await customer.ShowAll();
 			Console.WriteLine();
-			Console.Write("Pick a customer (ID) to create booking for: ");
+			Console.Write("Pick a customer (ID) to create booking for or enter 0 to exit: ");
 
 			string customerQuery = "select id, first_name, last_name FROM customers where id = $1";
 
 			if (int.TryParse(Console.ReadLine(), out int selectedID))
 			{
+				if (selectedID == 0)
+				{
+					Console.Clear();
+					Console.WriteLine("Returning to menu");
+					return;
+				}
 				var cmd = db.CreateCommand(customerQuery);
 
 				cmd.Parameters.AddWithValue(selectedID);
@@ -52,7 +58,7 @@ public class Booking
 
 					while (true)
 					{
-						if (input.ToLower() == "y")
+						if (input?.ToLower() == "y")
 						{
 							Console.Clear();
 
@@ -72,7 +78,7 @@ public class Booking
 								break;
 							}
 						}
-						else if (input.ToLower() == "n")
+						else if (input?.ToLower() == "n")
 						{
 							Console.Clear();
 							Console.WriteLine("Booking Cancelled");
@@ -145,7 +151,7 @@ public class Booking
 
 			Console.WriteLine("Please review the booking details and type \"CONFIRM\" to finalize booking\nEnter \"CANCEL\" to cancel.");
 			string? input = string.Empty;
-			input = Console.ReadLine();
+			input = Console.ReadLine()?.ToUpper();
 
 			if (input == "CANCEL")
 			{
@@ -232,9 +238,9 @@ public class Booking
 
 		const string query = @"select id from bookings 
 							where room_id = $1 
-							AND start_date <= $2
+							AND start_date >= $2
 							AND end_date <= $3
-";
+		";
 
 		var cmd = db.CreateCommand(query);
 
@@ -260,7 +266,6 @@ public class Booking
 	public async Task SelectDelete()
 	{
 		await List();
-		Console.WriteLine("---------------------------------------------------------------------------------------------");
 		Console.Write("Choose a BookingID to delete: ");
 		if (int.TryParse(Console.ReadLine(), out int selectedBookingNumber))
 		{
@@ -306,7 +311,7 @@ public class Booking
 
 			Console.WriteLine("------------------------------");
 			Console.WriteLine("Are you sure you wan to delete this booking? [y/n]");
-			string deleteInput = Console.ReadLine().ToLower();
+			string? deleteInput = Console.ReadLine()?.ToLower();
 
 			if (deleteInput == "y")
 			{
@@ -369,38 +374,38 @@ public class Booking
 		}
 	}
 
-	public async Task List()
-	{
-		Console.Clear();
-		await using var connection = NpgsqlDataSource.Create(Database.Url);
+    public async Task List()
+    {
+        Console.Clear();
+        await using var connection = NpgsqlDataSource.Create(Database.Url);
 
-		await connection.OpenConnectionAsync();
+        await connection.OpenConnectionAsync();
 
-		using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS Customer, b.customer_id AS CustomerID, b.id AS BookingID, (b.start_date || ' - ' || b.end_date) AS StartdateEndDate, room_id AS RoomID FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id;");
+        using var cmd = connection.CreateCommand("SELECT CONCAT(c.first_name, ' ', c.last_name) AS Customer, b.customer_id AS CustomerID, b.id AS BookingID, (b.start_date || ' - ' || b.end_date) AS StartdateEndDate, room_id AS RoomID FROM BOOKINGS b JOIN Customers c ON b.customer_id = c.id;");
 
-		using var reader = await cmd.ExecuteReaderAsync();
+        using var reader = await cmd.ExecuteReaderAsync();
 
-		Console.WriteLine("List of Bookings:");
+        Console.WriteLine("List of Bookings:");
+        Console.WriteLine(new string('-', 80));
+        Console.WriteLine("{0,-12} {1,-20} {2,-12} {3,-25} {4,-10}", "BookingID", "Customer", "CustomerID", "Date", "RoomID");
+        Console.WriteLine(new string('-', 80));
 
-		int count = 1;
+        while (await reader.ReadAsync())
+        {
+            string customerName = reader.GetString(reader.GetOrdinal("Customer"));
+            int customerId = reader.GetInt32(reader.GetOrdinal("CustomerID"));
+            int bookingId = reader.GetInt32(reader.GetOrdinal("BookingID"));
+            int roomID = reader.GetInt32(reader.GetOrdinal("RoomID"));
+            string startdateEndDate = reader.GetString(reader.GetOrdinal("StartdateEndDate"));
 
-		while (await reader.ReadAsync())
-		{
-			string customerName = reader.GetString(reader.GetOrdinal("Customer"));
-			int customerId = reader.GetInt32(reader.GetOrdinal("CustomerID"));
-			int bookingId = reader.GetInt32(reader.GetOrdinal("BookingID"));
-			int roomID = reader.GetInt32(reader.GetOrdinal("RoomID"));
-			string startdateEndDate = reader.GetString(reader.GetOrdinal("StartdateEndDate"));
+            Console.WriteLine("{0,-12} {1,-20} {2,-12} {3,-25} {4,-10}", bookingId, customerName, customerId, startdateEndDate, roomID);
+        }
 
-
-			Console.WriteLine($"BookingID: {bookingId} Name: {customerName}, Customer ID: {customerId}, Date: {startdateEndDate}, RoomID: {roomID}");
-			count++;
-		}
-	}
-	public async Task SelectEdit()
+        Console.WriteLine(new string('-', 80));
+    }
+    public async Task SelectEdit()
 	{
 		await List();
-		Console.WriteLine("---------------------------------------------------------------------------------------------");
 		Console.Write("Choose a BookingID to edit: ");
 		if (int.TryParse(Console.ReadLine(), out int selectedBookingNumber))
 		{
@@ -499,7 +504,6 @@ public class Booking
 		{
 			Console.WriteLine($"Booking with ID {bookingNumber} not found.");
 		}
-
 	}
 
 	public async Task<int> AssignRoom(Booking booking)
@@ -534,7 +538,7 @@ public class Booking
 					string? input = Console.ReadLine();
 					while (true)
 					{
-						if (input.ToLower() == "y")
+						if (input?.ToLower() == "y")
 						{
 							Console.Clear();
 							return selectedRoom;

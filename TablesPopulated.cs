@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-
 namespace HolidayMakerGroup6;
 
 public class TablesPopulated
@@ -16,7 +15,6 @@ public class TablesPopulated
             ('azurebliss', 200, 100), 
             ('crystalcove', 250, 50);
         ";
-
         const string qInsertRooms = @"
             INSERT INTO rooms (size, location_id, price, reviews)
             VALUES (2,5,1550.99,4.4),
@@ -50,7 +48,6 @@ public class TablesPopulated
             (1,5,890.99,2.5),
             (3,5,1350.99,2.7);
         ";
-
         const string qInsertExtraService = @"
             INSERT INTO extra_service (name, price)
             VALUES ('extrabed', 750.99),
@@ -61,7 +58,6 @@ public class TablesPopulated
             ('gym access', 750.0),
             ('private jet', 12000.0);
         ";
-
         const string qInsertSearchCriteria = @"
             INSERT INTO search_criteria (name)
             VALUES 
@@ -70,28 +66,32 @@ public class TablesPopulated
             ('evening entertainment'),
             ('childrens club');
         ";
-
         const string qInsertCriteraRooms= @"
             INSERT INTO criteria_rooms (criteria_id,room_id)
-            VALUES (3,16), (1,14), (1,19), 
-            (3,2), (4,13), (3,11), (4,26), 
-            (3,8), (2,13), (4,15), (3,11),
-            (2,11), (3,4), (2,19), (4,7),
-            (1,2), (1,28), (1,3), (3,21),
+            VALUES (3,16), (4,13), (1,25),
+            (3,2), (3,8), (2,13), (3,11),
+            (2,11), (2,19), (4,7),
+            (1,2), (1,3), (3,21),
             (1,19), (1,28), (4,25), (4,29),
-            (1,14), (1,23), (4,6), (1,1),
-            (2,21), (3,7), (2,9), (1,23),
-            (4,13), (2,11), (4,15), (1,25),
-            (3,2), (3,12), (4,19), (2,29),
+            (1,14), (4,6), (1,1),
+            (2,21), (3,7), (1,23),
+            (3,12), (4,19), (2,29),
             (2,9), (4,24), (4,26), (4,28),
             (4,23), (3,4), (4,15), (2,6),
             (3,3), (3,24), (3,6);
         ";
-
-        await db.CreateCommand(qInsertLocations).ExecuteNonQueryAsync();
-        await db.CreateCommand(qInsertRooms).ExecuteNonQueryAsync();
-        await db.CreateCommand(qInsertExtraService).ExecuteNonQueryAsync();
-        await db.CreateCommand(qInsertSearchCriteria).ExecuteNonQueryAsync();
-        await db.CreateCommand(qInsertCriteraRooms).ExecuteNonQueryAsync();
+        
+        try
+        {
+            await db.CreateCommand(qInsertLocations).ExecuteNonQueryAsync();
+            await db.CreateCommand(qInsertRooms).ExecuteNonQueryAsync();
+            await db.CreateCommand(qInsertExtraService).ExecuteNonQueryAsync();
+            await db.CreateCommand(qInsertSearchCriteria).ExecuteNonQueryAsync();
+            await db.CreateCommand(qInsertCriteraRooms).ExecuteNonQueryAsync();
+        }
+        catch (Exception ex)
+        {
+            await Console.Out.WriteLineAsync($"An error has occurred while filling the tables:\n\n{ex.Message}");
+        }
     }
 }
